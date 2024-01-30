@@ -13,8 +13,7 @@ public class Main {
 
 		char[][] map = new char[n][m];
 		boolean[][][] visited = new boolean[n][m][2]; // 메모리 초과 문제
-		// 벽 뚫은 경우와 뚫지 않은 경우 구분해줘야 한다
-		boolean[][][] visitedBreak = new boolean[n][m][2];
+		// 벽 뚫은 경우와 뚫지 않은 경우로 visited를 따로 관리한다
 
 		for (int i = 0; i < n; i++) {
 			map[i] = br.readLine().toCharArray();
@@ -29,7 +28,6 @@ public class Main {
 		int minRoute = -1;
 
 		while (!queue.isEmpty()) {
-			//System.out.println(Arrays.toString(queue.peek()));
 			int curI = queue.peek()[0];
 			int curJ = queue.peek()[1];
 			int nowCnt = queue.peek()[2];
@@ -39,26 +37,24 @@ public class Main {
 				minRoute = minRoute == -1 ? nowCnt : Math.min(minRoute, nowCnt);
 			} else {
 				for (int[] d : dxy) {
-					if (curI + d[0] > -1 && curI + d[0] < n && curJ + d[1] > -1 && curJ + d[1] < m && (visited[curI + d[0]][curJ + d[1]][oneCnt] == false)) {
+					if (curI + d[0] > -1 && curI + d[0] < n && curJ + d[1] > -1 && curJ + d[1] < m
+							&& (visited[curI + d[0]][curJ + d[1]][oneCnt] == false)) {
 						if (map[curI + d[0]][curJ + d[1]] == '0' && oneCnt == 0) {
-						//	System.out.println("no break wall");
+							// 뚫지 않아도 되고 뚫지 않았음
 							visited[curI + d[0]][curJ + d[1]][oneCnt] = true;
 							queue.add(new Integer[] { curI + d[0], curJ + d[1], nowCnt + 1, oneCnt });
 						} else if (map[curI + d[0]][curJ + d[1]] == '1' && oneCnt == 0) {
-						//	System.out.println("break wall");
+							// 뚫어야 되고 뚫지 않았음
 							visited[curI + d[0]][curJ + d[1]][oneCnt] = true;
 							queue.add(new Integer[] { curI + d[0], curJ + d[1], nowCnt + 1, oneCnt + 1 });
-						}else if (map[curI + d[0]][curJ + d[1]] == '0' && oneCnt == 1) {
-						//	System.out.println("broke wall");
+						} else if (map[curI + d[0]][curJ + d[1]] == '0' && oneCnt == 1) {
+							// 뚫지 않아도 되고 뚫었음
 							visited[curI + d[0]][curJ + d[1]][oneCnt] = true;
 							queue.add(new Integer[] { curI + d[0], curJ + d[1], nowCnt + 1, oneCnt });
 						}
-					//	System.out.println("check" + (curI + d[0]) + " " + (curJ + d[1]));
 					}
 				}
 			}
-
-			// map[curI][curJ] = '1';
 			queue.poll();
 		}
 
