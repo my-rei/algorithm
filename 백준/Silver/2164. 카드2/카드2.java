@@ -1,6 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class Main {
@@ -8,7 +8,7 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int n = Integer.parseInt(br.readLine());
 
-		Queue<Integer> q = new ArrayDeque<>();
+		Queue<Integer> q = new LinkedList<>();
 		for (int i = 1; i <= n; i++)
 			q.offer(i);
 
