@@ -1,63 +1,50 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Queue;
 
 public class Main {
+	static boolean[][] farm;
+	static int M, N, K;
+	static int[][] delta = { { 0, 1 }, { 1, 0 }, { -1, 0 }, { 0, -1 } };
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-
 		int T = Integer.parseInt(br.readLine());
-
 		while (T-- > 0) {
 			String[] mnk = br.readLine().split(" ");
-			int m = Integer.parseInt(mnk[0]);
-			int n = Integer.parseInt(mnk[1]);
-			int k = Integer.parseInt(mnk[2]);
-
-			int[][] farm = new int[m][n];
-			boolean[][] visited = new boolean[m][n];
-			for (int i = 0; i < k; i++) {
+			M = Integer.parseInt(mnk[0]);
+			N = Integer.parseInt(mnk[1]);
+			K = Integer.parseInt(mnk[2]);
+			farm = new boolean[M][N];
+			for (int i = 0; i < K; i++) {
 				String[] xy = br.readLine().split(" ");
-				farm[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])] = 1;
+				farm[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])] = true;
 			}
 
-			Queue<Integer[]> queue = new ArrayDeque<>();
-			int cnt = 0;
-			int[][] dxy = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
-			for (int i = 0; i < m; i++) {
-				for (int j = 0; j < n; j++) {
-					if (farm[i][j] == 1 && visited[i][j] == false) {
-						queue.add(new Integer[] { i, j });
-						visited[i][j] = true;
-						cnt++;
-
-						while (!queue.isEmpty()) {
-							int curI = queue.peek()[0];
-							int curJ = queue.peek()[1];
-
-							for (int[] d : dxy) {
-								int tI = curI + d[0];
-								int tJ = curJ + d[1];
-
-								if (tI > -1 && tI < m && tJ > -1 && tJ < n && visited[tI][tJ] == false
-										&& farm[tI][tJ] == 1) {
-									queue.add(new Integer[] { tI, tJ });
-									visited[tI][tJ] = true;
-								}
-							}
-
-							queue.poll();
-						}
+			int worm = 0;
+			for (int i = 0; i < M; i++) {
+				for (int j = 0; j < N; j++) {
+					if (farm[i][j]) {
+						worm++;
+						farm[i][j] = false;
+						dfs(i, j);
 					}
 
 				}
 			}
-			sb.append(cnt + "\n");
+			sb.append(worm + "\n");
 		}
 		System.out.println(sb);
+	}
 
+	static void dfs(int curI, int curJ) {
+		for (int[] d : delta) {
+			int nextI = curI + d[0];
+			int nextJ = curJ + d[1];
+			if (nextI > -1 && nextI < M && nextJ > -1 && nextJ < N && farm[nextI][nextJ]) {
+				farm[nextI][nextJ] = false;
+				dfs(nextI, nextJ);
+			}
+		}
 	}
 }
