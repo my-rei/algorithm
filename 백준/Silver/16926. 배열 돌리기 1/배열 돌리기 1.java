@@ -35,7 +35,7 @@ public class Main {
 			for (int i = N - level - 1; i > level; i--)
 				queue.add(map[i][level]);
 
-			for (int i = 0; i < R; i++)
+			for (int i = 0; i < R % queue.size(); i++)
 				queue.offer(queue.poll());
 
 			for (int j = level; j < M - level - 1; j++)
@@ -48,12 +48,6 @@ public class Main {
 				map[i][level] = queue.poll();
 
 			level += 1;
-
-//			for (int i = 0; i < N; i++) {
-//				for (int j = 0; j < M; j++)
-//					System.out.print(map[i][j] + " ");
-//				System.out.println();
-//			}
 		}
 
 		for (int i = 0; i < N; i++) {
