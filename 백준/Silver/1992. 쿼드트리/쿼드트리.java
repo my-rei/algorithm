@@ -1,52 +1,43 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 public class Main {
-	static int[][] map;
+	static char[][] map;
 	static StringBuilder sb;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(br.readLine());
+		map = new char[N][N];
 		
-		sb= new StringBuilder();
-		map = new int[N][N];
-		for(int i = 0;i<N;i++) {
-			char[] cs = br.readLine().toCharArray();
-			for(int j = 0;j<N;j++) {
-				map[i][j] = cs[j]-'0';
-			}
-		}
+		for(int i = 0;i<N;i++)
+			map[i] = br.readLine().toCharArray();
 		
-		comp(N, 0,0);
-		System.out.println(sb);
+		
+		sb = new StringBuilder();
+		findTree(0,0,N);
+		System.out.println(sb);	
 	}
 	
-	static void comp(int width, int ci, int cj) {
-		int f = map[ci][cj];
-		
-		if(width == 1) {
-			sb.append(f);
-			return;
-		}
-		
-		int nextWidth = width / 2;
-		boolean flg = false;
-		for(int i = ci;i<ci+width;i++) {
-			for(int j = cj;j<cj+width;j++) 
-				if(!flg && f != map[i][j]) flg = true;
-			if(flg) break;
-		}
-		
-		if(flg) {
-			sb.append("(");
-			for(int i = ci;i<ci+width;i+=nextWidth)
-				for(int j = cj;j<cj+width;j+=nextWidth)
-					comp(nextWidth, i, j);
-			sb.append(")");
+	static void findTree(int si, int sj, int width) {
+		if(isSame(si, sj, si+width, sj+width)) {
+			sb.append(map[si][sj]);
 		} else {
-			sb.append(f);
+			sb.append("(");
+			findTree(si, sj, width/2);
+			findTree(si, sj+width/2, width/2);
+			findTree(si+width/2, sj, width/2);
+			findTree(si+width/2, sj+width/2, width/2);
+			sb.append(")");
 		}
+	}
+	
+	static boolean isSame(int si, int sj, int ei, int ej) {
+		char t = map[si][sj];
+		for(int i = si;i<ei;i++) {
+			for(int j = sj;j<ej;j++) {
+				if(map[i][j] != t) return false;
+			}
+		}
+		return true;
 	}
 }
