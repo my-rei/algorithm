@@ -1,9 +1,9 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -14,27 +14,22 @@ import java.util.StringTokenizer;
 public class Main {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
 		int N = Integer.parseInt(st.nextToken()), M = Integer.parseInt(st.nextToken()),
 				D = Integer.parseInt(st.nextToken());
 		char[][] map = new char[N][M];
+
 		Queue<int[]> queue = new ArrayDeque<>();
 		for (int i = 0; i < N; i++) {
 			map[i] = br.readLine().replace(" ", "").toCharArray();
 		}
 
 		int maxCnt = 0;
-//		for(int m = 0;m<N;m++) {
-//			for(int n = 0;n<M;n++) {
-//				if(map[m][n] == '1') { queue.add(new int[] {m,n});}
-//			}
-//		}
 		for (int i = 0; i < M; i++) {
 			for (int j = i + 1; j < M; j++) {
 				for (int k = j + 1; k < M; k++) {
-
 					int cnt = 0;
 					// i, j, k
 					for (int m = 0; m < N; m++) {
@@ -46,54 +41,32 @@ public class Main {
 					}
 					while (!queue.isEmpty()) {
 						getQ(queue, N, i);
-//						System.out.printf("i:: %d,%d => %d,%d(%d)\n", N, i, queue.peek()[0], queue.peek()[1], queue.peek()[2]);
-//						System.out.println(inDis(queue.peek()[0], queue.peek()[1], N, i, D));
-						if (inDis(queue.peek()[0], queue.peek()[1], N, i, D)) {
-							queue.add(new int[] { queue.peek()[0], queue.peek()[1], queue.peek()[2] + 1 });
-							queue.poll();
-						}
+						getEnemy(queue, N, i, D);
 						getQ(queue, N, j);
-//						System.out.printf("j:: %d,%d => %d,%d(%d)\n", N, j, queue.peek()[0], queue.peek()[1], queue.peek()[2]);
-
-						if (inDis(queue.peek()[0], queue.peek()[1], N, j, D)) {
-							queue.add(new int[] { queue.peek()[0], queue.peek()[1], queue.peek()[2] + 1 });
-							queue.poll();
-						}
+						getEnemy(queue, N, j, D);
 						getQ(queue, N, k);
-//						System.out.printf("k:: %d,%d => %d,%d(%d)\n", N, k, queue.peek()[0], queue.peek()[1], queue.peek()[2]);
-
-						if (inDis(queue.peek()[0], queue.peek()[1], N, k, D)) {
-							queue.add(new int[] { queue.peek()[0], queue.peek()[1], queue.peek()[2] + 1 });
-							queue.poll();
-						}
+						getEnemy(queue, N, k, D);
 
 						Queue<int[]> newQ = new ArrayDeque<>();
-						while(!queue.isEmpty()) {
+						while (!queue.isEmpty()) {
 							if (queue.peek()[0] + 1 < N && queue.peek()[2] == 0) {
 								newQ.add(new int[] { queue.peek()[0] + 1, queue.peek()[1], queue.peek()[2] });
 							}
-							if(queue.peek()[2] > 0) {
+							if (queue.peek()[2] > 0)
 								cnt++;
-							}
 							queue.poll();
 						}
 						queue = newQ;
 					}
-//					if (cnt > maxCnt)
-//						System.out.println("max ==> " + i + " " + j + " " + k);
-
 					maxCnt = Math.max(maxCnt, cnt);
-
-					if (queue.isEmpty()) {
-//						System.out.println("B  " + i + " " + j + " " + k);
-						// break;
-					}
 				}
 
 			}
 
 		}
-		System.out.println(maxCnt);
+		bw.write(String.valueOf(maxCnt));
+		bw.flush();
+		bw.close();
 	}
 
 	static void getQ(Queue<int[]> q, int r1, int c1) {
@@ -101,15 +74,34 @@ public class Main {
 		int q1 = q.size();
 		for (int i = 0; i < q1; i++)
 			list.add(q.poll());
-		list.sort(new Comparator<int[]>() {
-			@Override
-			public int compare(int[] o1, int[] o2) {
-				return getDis(o1[0], o1[1], r1, c1) == getDis(o2[0], o2[1], r1, c1) ? o1[1] - o2[1]
-						: getDis(o1[0], o1[1], r1, c1) - getDis(o2[0], o2[1], r1, c1);
+
+		int[] target = list.get(0);
+		for (int[] l : list) {
+			if (getDis(l[0], l[1], r1, c1) == getDis(target[0], target[1], r1, c1) && l[1] < target[1]) {
+				target = l;
 			}
-		});
-		for (int i = 0; i < list.size(); i++)
-			q.add(list.get(i));
+			if (getDis(l[0], l[1], r1, c1) < getDis(target[0], target[1], r1, c1)) {
+				target = l;
+			}
+		}
+		for (int i = 0; i < list.size(); i++) {
+			if (target[0] == list.get(i)[0] && target[1] == list.get(i)[1]) {
+				q.add(list.get(i));
+			}
+		}
+
+		for (int i = 0; i < list.size(); i++) {
+			if (!(target[0] == list.get(i)[0] && target[1] == list.get(i)[1])) {
+				q.add(list.get(i));
+			}
+		}
+	}
+
+	static void getEnemy(Queue<int[]> q, int r1, int c1, int d) {
+		if (inDis(q.peek()[0], q.peek()[1], r1, c1, d)) {
+			q.add(new int[] { q.peek()[0], q.peek()[1], q.peek()[2] + 1 });
+			q.poll();
+		}
 	}
 
 	static int getDis(int r1, int c1, int r2, int c2) {
