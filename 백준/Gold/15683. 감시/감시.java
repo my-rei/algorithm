@@ -20,14 +20,8 @@ public class Main {
 			this.dir = dir;
 			this.type = t-'0';
 		}
-		
-		@Override
-		public String toString() {
-			// TODO Auto-generated method stub
-			return "[("+r+","+c+"), type="+type+", dir="+dir+"]";
-		}
 	}
-	static int[] deltaC = new int[] {0,1,0,-1}, deltaR = new int[] {1,0,-1,0};
+	static int[] deltaR = new int[] {0,1,0,-1}, deltaC = new int[] {1,0,-1,0};
 
 	
 	public static void main(String[] args) throws Exception {
@@ -65,25 +59,23 @@ public class Main {
 	}
 	
 	static void camera(int cnt, int cur) {
-//		System.out.println(cur);
 		if(cur == cctvNum) {
-//			System.out.println("Sss");
 			minBlock = Math.min(minBlock, getBlocked());
 			return;
 		}
+		boolean flg = false;
 		
 		for(int i = 0;i<4;i++) {
-			if(!isIn(cctvs[cur].r, cctvs[cur].c, i, cur)) {
+			if(!isIn(cctvs[cur].r, cctvs[cur].c, i, cctvs[cur].type, cur)) {
 				cctvs[cur].dir = i;
 				camera(cnt, cur+1);
-				cctvs[cur].dir = -1;
+				flg = true;
 			}
-			
 			
 			if(cctvs[cur].type == 5 && i == 0) break;
 			if(cctvs[cur].type == 2 && i == 1) break;
 		}
-		camera(cnt, cur+1);
+		if(!flg) camera(cnt, cur+1);
 		
 	}
 	
@@ -93,7 +85,6 @@ public class Main {
 		boolean[][] check = new boolean[N][M];
 		for(int i = 0;i<cctvNum;i++) {
 			if(cctvs[i].dir==-1) {
-//				System.out.printf("??: %d,%d [%d]\n", cctvs[i].c, cctvs[i].r, i);
 				continue;
 			}
 			
@@ -117,30 +108,28 @@ public class Main {
 		for(int i = 0;i<N;i++)
 			for(int j = 0;j<M;j++)
 				cnt += !check[i][j] && map[i][j] == '0'? 1:0; 
-		
-	
-//			System.out.println("======"+cnt+"=======");
-//			for(int i = 0;i<N;i++) {
-//				for(int j = 0;j<M;j++) 
-//					System.out.print(check[i][j]? "#":map[i][j]);
-//				System.out.println();
-//			}
-//			System.out.println(Arrays.toString(cctvs));
-//			System.out.println();
-		
 		return cnt;
 	}
 	
-	static boolean isIn(int r, int c, int d, int cnt) {
+	static boolean isIn(int r, int c, int d, int t, int cnt) {
 		for(int i = 0;i<cnt;i++) {
-//			System.out.println(cctvs[i].toString());
 			if(cctvs[i].r==r) {
-//				if(cctvs[i].type == 5 && d%2 == 0) return true;
+				if(cctvs[i].type == 5 && d%2 == 0 && t < 3) {
+					for(int k =0;k<M;k++)
+						if(map[r][k] == '6') return false;
+					return true;
+				}
 //				if(cctvs[i].type == 4 && !(cctvs[i].dir == (d+3)%4)) return true;
 //				if(cctvs[i].type == 3 && (cctvs[i].dir == d || cctvs[i].dir == (d+1)%4)) return true;
 //				if(cctvs[i].type == 2 && cctvs[i].dir % 2 == d % 2) return true;
 			}
 			if(cctvs[i].c == c) {
+				if(cctvs[i].type == 5 && d%2 == 1 && t < 3) {
+					for(int k =0;k<N;k++)
+						if(map[k][c] == '6') return false;
+//					System.out.println(r+" "+c+" "+d);
+					return true;
+				}
 //				if(cctvs[i].type == 5 && d%2 == 1) return true;
 //				if(cctvs[i].type == 4 && !(cctvs[i].dir == (d+3)%4)) return true;
 //				if(cctvs[i].type == 3 && (cctvs[i].dir == d || cctvs[i].dir == (d+1)%4)) return true;
