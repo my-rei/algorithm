@@ -21,15 +21,6 @@ public class Main {
 				map[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
-		
-//		for (int i = 0; i < 4; i++) {
-//			// 전방향 테스트 
-//			if (canMove(map, i)) {
-//				int[][] res = move(map, i);
-//				System.out.println("======"+i+"======");
-//				printMap(res);
-//			}
-//		}
 
 		maxBlock = findMax(map);
 		play(0, findMax(map), map);
@@ -38,7 +29,6 @@ public class Main {
 
 	static void play(int round, int curMax, int[][] newMap) {
 		if (round == 5) {
-//			System.out.println("max "+curMax+" "+maxBlock);
 			maxBlock = Math.max(maxBlock, curMax);
 			return;
 		}
@@ -52,20 +42,10 @@ public class Main {
 			// 이동
 			if (canMove(newMap, i)) {
 				int[][] res = move(newMap, i);
-//				System.out.println("-------["+round+":"+i+"]------");
-//				printMap(res);
 				play(round + 1, findMax(res), res);
 			}
 		}
 		maxBlock = Math.max(maxBlock, curMax);
-	}
-	
-	static void printMap(int[][] target) {
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++)
-				System.out.print(target[i][j] + " ");
-			System.out.println();
-		}
 	}
 
 	static int findMax(int[][] target) {
@@ -87,159 +67,50 @@ public class Main {
 		}
 
 		int dr = dirR[dir], dc = dirC[dir];
-		if (dir == 0) {
-			for (int i = 0; i < N; i++) {
-				for (int j = N - 1; j > -1; j--) {
-					int cr = i, cc = j, nr = i + dr, nc = j + dc;
-					while (nr > -1 && nr < N && nc > -1 && nc < N) {
-						if (result[nr][nc] != 0) {
-							if (result[nr][nc] == result[cr][cc] && !check[nr][nc]) {
-								check[nr][nc] = true;
-								result[nr][nc] = result[nr][nc] * 2;
-								result[cr][cc] = 0;
-							}
-							break;
-						} else {
-							result[nr][nc] = result[cr][cc];
-							result[cr][cc] = 0;
-						}
-						cr = nr; cc = nc;
-						nr = cr + dr; nc = cc + dc;
-					}
-				}
-			}
-		} else if (dir == 1) {
+		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				for (int i = N - 1; i > -1; i--) {
-					int cr = i, cc = j, nr = i + dr, nc = j + dc;
-					while (nr > -1 && nr < N && nc > -1 && nc < N) {
-						if (result[nr][nc] != 0) {
-							if (result[nr][nc] == result[cr][cc] && !check[nr][nc]) {
-								check[nr][nc] = true;
-								result[nr][nc] = result[nr][nc] * 2;
-								result[cr][cc] = 0;
-							}
-							break;
-						} else {
-							result[nr][nc] = result[cr][cc];
+				int cr = dir % 2 == 0 ? i : dir == 1 ? N - j - 1 : j;
+				int cc = dir % 2 == 1 ? i : dir == 0 ? N - j - 1 : j;
+				int nr = cr + dr, nc = cc + dc;
+				while (nr > -1 && nr < N && nc > -1 && nc < N) {
+					if (result[nr][nc] != 0) {
+						if (result[nr][nc] == result[cr][cc] && !check[nr][nc]) {
+							check[nr][nc] = true;
+							result[nr][nc] = result[nr][nc] * 2;
 							result[cr][cc] = 0;
 						}
-						cr = nr; cc = nc;
-						nr = cr + dr; nc = cc + dc;
+						break;
+					} else {
+						result[nr][nc] = result[cr][cc];
+						result[cr][cc] = 0;
 					}
-				}
-			}
-		} else if (dir == 2) {
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < N; j++) {
-					int cr = i, cc = j, nr = i + dr, nc = j + dc;
-					while (nr > -1 && nr < N && nc > -1 && nc < N) {
-						if (result[nr][nc] != 0) {
-							if (result[nr][nc] == result[cr][cc] && !check[nr][nc]) {
-								check[nr][nc] = true;
-								result[nr][nc] = result[nr][nc] * 2;
-								result[cr][cc] = 0;
-							}
-							break;
-						} else {
-							result[nr][nc] = result[cr][cc];
-							result[cr][cc] = 0;
-						}
-						cr = nr; cc = nc;
-						nr = cr + dr; nc = cc + dc;
-					}
-				}
-			}
-		} else if (dir == 3) {
-			for (int j = 0; j < N; j++) {
-				for (int i = 0; i < N; i++) {
-					int cr = i, cc = j, nr = i + dr, nc = j + dc;
-					while (nr > -1 && nr < N && nc > -1 && nc < N) {
-						if (result[nr][nc] != 0) {
-							if (result[nr][nc] == result[cr][cc] && !check[nr][nc]) {
-								check[nr][nc] = true;
-								result[nr][nc] = result[nr][nc] * 2;
-								result[cr][cc] = 0;
-							}
-							break;
-						} else {
-							result[nr][nc] = result[cr][cc];
-							result[cr][cc] = 0;
-						}
-						cr = nr; cc = nc;
-						nr = cr + dr; nc = cc + dc;
-					}
+					cr = nr; cc = nc;
+					nr = cr + dr;
+					nc = cc + dc;
 				}
 			}
 		}
-
 		return result;
 	}
 
 	static boolean canMove(int[][] map, int dir) {
 		int dr = dirR[dir], dc = dirC[dir];
-		if (dir == 0) {
-			for (int i = 0; i < N; i++) {
-				for (int j = N - 1; j > -1; j--) {
-					int nr = i + dr, nc = j + dc;
-					if (nr > -1 && nr < N && nc > -1 && nc < N) {
-						if (map[nr][nc] != 0) {
-							if (map[nr][nc] == map[i][j]) {
-								return true;
-							}
-						} else {
-							return true;
-						}
-					}
-				}
-			}
-		} else if (dir == 1) {
+		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				for (int i = N - 1; i > -1; i--) {
-					int nr = i + dr, nc = j + dc;
-					if (nr > -1 && nr < N && nc > -1 && nc < N) {
-						if (map[nr][nc] != 0) {
-							if (map[nr][nc] == map[i][j]) {
-								return true;
-							}
-						} else {
+				int cr = dir % 2 == 0 ? i : dir == 1 ? N - j - 1 : j;
+				int cc = dir % 2 == 1 ? i : dir == 0 ? N - j - 1 : j;
+				int nr = cr + dr, nc = cc + dc;
+				if (nr > -1 && nr < N && nc > -1 && nc < N) {
+					if (map[nr][nc] != 0) {
+						if (map[nr][nc] == map[i][j]) {
 							return true;
 						}
-					}
-				}
-			}
-		} else if (dir == 2) {
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < N; j++) {
-					int nr = i + dr, nc = j + dc;
-					if (nr > -1 && nr < N && nc > -1 && nc < N) {
-						if (map[nr][nc] != 0) {
-							if (map[nr][nc] == map[i][j]) {
-								return true;
-							}
-						} else {
-							return true;
-						}
-					}
-				}
-			}
-		} else if (dir == 3) {
-			for (int j = 0; j < N; j++) {
-				for (int i = 0; i < N; i++) {
-					int nr = i + dr, nc = j + dc;
-					if (nr > -1 && nr < N && nc > -1 && nc < N) {
-						if (map[nr][nc] != 0) {
-							if (map[nr][nc] == map[i][j]) {
-								return true;
-							}
-						} else {
-							return true;
-						}
+					} else {
+						return true;
 					}
 				}
 			}
 		}
 		return false;
 	}
-
 }
