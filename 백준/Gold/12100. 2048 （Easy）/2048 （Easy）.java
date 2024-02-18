@@ -17,9 +17,8 @@ public class Main {
 		map = new int[N][N];
 		for (int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < N; j++) {
+			for (int j = 0; j < N; j++) 
 				map[i][j] = Integer.parseInt(st.nextToken());
-			}
 		}
 
 		maxBlock = findMax(map);
@@ -48,6 +47,14 @@ public class Main {
 		maxBlock = Math.max(maxBlock, curMax);
 	}
 
+	static void printMap(int[][] target) {
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++)
+				System.out.print(target[i][j] + " ");
+			System.out.println();
+		}
+	}
+
 	static int findMax(int[][] target) {
 		int r = 0;
 		for (int i = 0; i < N; i++)
@@ -72,6 +79,7 @@ public class Main {
 				int cr = dir % 2 == 0 ? i : dir == 1 ? N - j - 1 : j;
 				int cc = dir % 2 == 1 ? i : dir == 0 ? N - j - 1 : j;
 				int nr = cr + dr, nc = cc + dc;
+				if(result[cr][cc] == 0) continue;
 				while (nr > -1 && nr < N && nc > -1 && nc < N) {
 					if (result[nr][nc] != 0) {
 						if (result[nr][nc] == result[cr][cc] && !check[nr][nc]) {
@@ -84,12 +92,14 @@ public class Main {
 						result[nr][nc] = result[cr][cc];
 						result[cr][cc] = 0;
 					}
-					cr = nr; cc = nc;
+					cr = nr;
+					cc = nc;
 					nr = cr + dr;
 					nc = cc + dc;
 				}
 			}
 		}
+
 		return result;
 	}
 
@@ -100,6 +110,7 @@ public class Main {
 				int cr = dir % 2 == 0 ? i : dir == 1 ? N - j - 1 : j;
 				int cc = dir % 2 == 1 ? i : dir == 0 ? N - j - 1 : j;
 				int nr = cr + dr, nc = cc + dc;
+				//if(map[cr][cc] == 0) continue;
 				if (nr > -1 && nr < N && nc > -1 && nc < N) {
 					if (map[nr][nc] != 0) {
 						if (map[nr][nc] == map[i][j]) {
