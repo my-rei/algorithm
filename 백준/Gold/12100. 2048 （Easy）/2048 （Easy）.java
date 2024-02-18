@@ -39,10 +39,10 @@ public class Main {
 		for (int i = 0; i < 4; i++) {
 			// 움직일 수 없는 경우 continue
 			// 이동
-			if (canMove(newMap, i)) {
+			//if (canMove(newMap, i)) {
 				int[][] res = move(newMap, i);
 				play(round + 1, findMax(res), res);
-			}
+			//}
 		}
 		maxBlock = Math.max(maxBlock, curMax);
 	}
