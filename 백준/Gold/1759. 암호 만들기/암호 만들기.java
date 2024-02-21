@@ -30,6 +30,8 @@ public class Main {
 		}
 
 		// 모음은 최대 L-1, 자음은 최대 L-2개 가능
+        		if (vo == L - 1)
+			return;
 
 		for (int i = cur; i < alphaList.length; i++) {
 			if (isVowel(alphaList[i]))
