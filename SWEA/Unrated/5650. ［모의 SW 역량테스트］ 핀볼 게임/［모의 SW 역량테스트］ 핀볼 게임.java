@@ -55,31 +55,23 @@ public class Solution {
 	}
 	
 	static int simulation(int r, int c, int d) {
-		int result = 0, dir = d, cr = r+dr[dir], cc = c+dc[dir];
-//		System.out.println("======"+r+","+c+" "+d+"========");
-//		System.out.println("("+cr+","+cc+") "+dir);
+		int result = 0, dir = d, cr = r+dr[dir], cc = c+dc[dir]; int[] wh;
 		while(cr != r || cc != c) {
-//			if(cr != 3 || cc != 0&&cc!=4) System.out.println("("+cr+","+cc+") "+dir+" => "+(cr>-1&&cr<N&&cc>-1&&cc<N?map[cr][cc]:"X"));
 			if(cr<0||cr>=N||cc<0||cc>=N) {
-//				System.out.println("aa");
 				result ++;
 				dir = turn[4][dir]; //벽
 				cr += dr[dir]; cc += dc[dir];
 				continue;
 			} 
 			if(map[cr][cc] != 0) {
-//				System.out.println("======"+r+","+c+" "+d+"========");
-//				if(cr != 3 || cc != 0&&cc!=4) System.out.println("("+cr+","+cc+") "+dir+" => "+map[cr][cc]);
 				if(map[cr][cc] == -1) { //블랙홀
-//					System.out.println("blackHole");
 					return result;
 				} else if(map[cr][cc] < 6) {
 					//블럭
-//					if(cr != 3 || cc != 0&&cc!=4) System.out.println("block "+dir+"->"+turn[map[cr][cc]-1][dir]);
 					dir = turn[map[cr][cc]-1][dir];
 					result++;
-				} else if(map[cr][cc] >= 6 && map[cr][cc] <= 10) {
-					int[] wh = wormHole[map[cr][cc]-6];
+				} else if(map[cr][cc] >= 6) {
+					wh = wormHole[map[cr][cc]-6];
 					if(cr == wh[1] && cc == wh[2]) {
 						cr = wh[3]; cc = wh[4];
 					} else if(cr == wh[3] && cc == wh[4]) {
@@ -88,8 +80,7 @@ public class Solution {
 				}
 			}
 			cr += dr[dir]; cc+=dc[dir];
-		}
-		
+		}	
 		
 		return result;
 	}
