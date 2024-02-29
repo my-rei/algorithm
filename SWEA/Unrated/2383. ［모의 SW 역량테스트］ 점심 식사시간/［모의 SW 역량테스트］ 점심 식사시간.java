@@ -2,7 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Solution {
-	static int[] stairSelect, goTime, endTime;
+	static int[][] goTime;
+	static int[] stairSelect, endTime;
 	static Stair aStair, bStair;
 	static int N, pCount, minTime;
 	static List<int[]> pList, asList, bsList;
@@ -44,7 +45,7 @@ public class Solution {
 					else if(val > 1 && aStair != null) bStair = new Stair(i, j, val);
 				}
 			}
-			goTime = new int[pCount];
+			goTime = new int[pCount][2]; //두 계단거리 모두
 			endTime = new int[pCount];
 			stairSelect = new int[pCount];
 			// 조합
@@ -70,8 +71,8 @@ public class Solution {
 	
 	static void updateTime() {
 		for(int i = 0;i<pCount;i++) {
-			int s = stairSelect[i] == 0? getTime(pList.get(i)[1], pList.get(i)[2], aStair.r, aStair.c):getTime(pList.get(i)[1], pList.get(i)[2], bStair.r, bStair.c);
-			goTime[i] = s;
+			goTime[i][0] = getTime(pList.get(i)[1], pList.get(i)[2], aStair.r, aStair.c);
+			goTime[i][1] = getTime(pList.get(i)[1], pList.get(i)[2], bStair.r, bStair.c);
 		}
 	}
 	
@@ -83,8 +84,8 @@ public class Solution {
 		bsList = new ArrayList<>();
 		
 		for(int i = 0;i<pCount;i++) {
-			if(stairSelect[i] == 0) asList.add(new int[] {i, goTime[i]});
-			else bsList.add(new int[] {i, goTime[i]});
+			if(stairSelect[i] == 0) asList.add(new int[] {i, goTime[i][0]});
+			else bsList.add(new int[] {i, goTime[i][1]});
 		}
 		
 		// 정렬 
@@ -106,14 +107,14 @@ public class Solution {
 		for(int i = 0;i<asList.size();i++) {
 			if(i < 3) { endTime[asList.get(i)[0]] = asList.get(i)[1]+aStair.L+1; }
 			else {
-				endTime[asList.get(i)[0]] = Math.max(goTime[asList.get(i)[0]]+aStair.L+1, endTime[asList.get(i-3)[0]]+aStair.L);
+				endTime[asList.get(i)[0]] = Math.max(goTime[asList.get(i)[0]][0]+aStair.L+1, endTime[asList.get(i-3)[0]]+aStair.L);
 			}
 		}
 
 		for(int i = 0;i<bsList.size();i++) {
 			if(i < 3) { endTime[bsList.get(i)[0]] = bsList.get(i)[1]+bStair.L+1; }
 			else {
-				endTime[bsList.get(i)[0]] = Math.max(goTime[bsList.get(i)[0]]+bStair.L+1, endTime[bsList.get(i-3)[0]]+bStair.L);
+				endTime[bsList.get(i)[0]] = Math.max(goTime[bsList.get(i)[0]][1]+bStair.L+1, endTime[bsList.get(i-3)[0]]+bStair.L);
 			}
 		}
 		
