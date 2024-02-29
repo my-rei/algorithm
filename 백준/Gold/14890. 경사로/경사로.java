@@ -47,7 +47,7 @@ public class Main {
 				if (map[i][j] > map[i][j + 1]) {
 					if (map[i][j] - map[i][j + 1] == 1 && check(i, j + 1, 0, lastIndex)) {
 						lastIndex = j + X;
-						//j += X - 1;
+						j += X - 1;
 					} else {
 						invalid++;
 					//	System.out.println("row[" + i + "] invalid Count: " + invalid);
@@ -78,7 +78,7 @@ public class Main {
 				if (map[i][j] > map[i + 1][j]) {
 					if (map[i][j] - map[i + 1][j] == 1 && check(i + 1, j, 2, lastIndex)) {
 						lastIndex = i + X;
-						//i += X - 1;
+						i += X - 1;
 					} else {
 						invalid++;
 						//System.out.println("col[" + j + "] invalid Count: " + invalid);
