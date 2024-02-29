@@ -49,6 +49,7 @@ public class Solution {
 			endTime = new int[pCount];
 			stairSelect = new int[pCount];
 			// 조합
+			updateTime();
 			combi(0);
 			sb.append("#"+test+" "+minTime+"\n");
 		}
@@ -78,7 +79,6 @@ public class Solution {
 	
 	static int go() {
 		int curTime = 0;
-		updateTime();
 		//A, B에 각각 넣기
 		asList = new ArrayList<>();
 		bsList = new ArrayList<>();
