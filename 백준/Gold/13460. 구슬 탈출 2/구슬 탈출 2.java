@@ -42,12 +42,13 @@ public class Main {
 		if(count > minTry) return;
 		
 		// d 0왼쪽 1오른쪽 2위쪽 3오른쪽 
-		for(int d =0;d<4;d++) {
+		for(int d = 0;d<4;d++) {
 			int[] rs = move(d, cor);
 			if(rs[0] == 0) {
 				dfs(count+1, rs);
 			} else if(rs[0] == 1) {
 				minTry = Math.min(minTry, count+1);
+                return;
 			}
 		}
 	}
@@ -69,7 +70,6 @@ public class Main {
 				} else if(map[nrr][nrc] == '#') {
 					rStop = true;
 				} else if(map[nrr][nrc] == 'O') {
-					nrr = -1; nrc = -1;
 					rStop = true;
 					success = true;
 				}
