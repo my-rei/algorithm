@@ -38,34 +38,25 @@ public class Main {
 	
 	static void dfs(int count, int[] cor) {
 		// r, b 좌표로 위치 관리한다 
-		if(count == 10) {
-			return;
-		}
-		
+		if(count == 10)  return;
 		if(count > minTry) return;
 		
 		// d 0왼쪽 1오른쪽 2위쪽 3오른쪽 
 		for(int d =0;d<4;d++) {
 			int[] rs = move(d, cor);
 			if(rs[0] == 0) {
-//				System.out.println("["+count+"] "+d+" continue");
 				dfs(count+1, rs);
 			} else if(rs[0] == 1) {
-//				System.out.println("["+count+"] "+d+" success");
 				minTry = Math.min(minTry, count+1);
-			} else if(rs[0] == -1) {
-//				System.out.println("["+count+"] "+d+" fail");
 			}
 		}
 	}
 	
 	static int[] move(int d, int[] cor) {
 		// return -1:실패/움직이지않음 0:이동완료 1:종료 
-		int[] result = Arrays.copyOf(cor, cor.length);
 		boolean flag = false, rStop = false, bStop = false, success = false;
 		int crr = cor[1], crc = cor[2], cbr = cor[3], cbc = cor[4];
 		while(!rStop || !bStop) {
-//			System.out.println(crr+ " "+crc+" "+cbr+" "+cbc+ " "+rStop+" "+bStop+ " "+d);
 			int nrr = crr + dr[d], nrc = crc+dc[d], nbr = cbr+dr[d], nbc = cbc+dc[d];
 			if(map[nrr][nrc] == '#') {nrr = crr; nrc = crc; rStop = true;}
 			if(map[nbr][nbc] == '#') {nbr = cbr; nbc = cbc; bStop = true;}
@@ -86,27 +77,20 @@ public class Main {
 			
 			if(!bStop) { //b 전진함
 				if (nrr == nbr && nrc == nbc && !success) {
-//					System.out.println(nrr+" "+nrc+" 82");
 					bStop = true;
 				} else if (map[nbr][nbc] == '.') {
-//					System.out.println("85");
 					cbr = nbr; cbc = nbc;
 					flag = true;
 				} else if(map[nbr][nbc] == '#') {
-//					System.out.println("dss");
 					bStop = true;
 				} else if(map[nbr][nbc] == 'O') {
 					return new int[] {-1, nrr, nrc, nbr, nbc};
 				}
 			}
-			
-//			crr = nrr; crc = nrc; cbr = nbr; cbc = nbc;
 		}
 		
 		if(success) return new int[] {1, crr, crc, cbr, cbc};
 		int resultcode = flag? 0:-1;
 		return new int[] {resultcode, crr, crc, cbr, cbc};
 	}
-	
-	
 }
