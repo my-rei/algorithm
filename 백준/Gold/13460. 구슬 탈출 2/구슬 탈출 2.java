@@ -67,8 +67,6 @@ public class Main {
 				} else if (map[nrr][nrc] == '.') {
 					crr = nrr; crc = nrc;
 					flag = true;
-				} else if(map[nrr][nrc] == '#') {
-					rStop = true;
 				} else if(map[nrr][nrc] == 'O') {
 					rStop = true;
 					success = true;
@@ -81,8 +79,6 @@ public class Main {
 				} else if (map[nbr][nbc] == '.') {
 					cbr = nbr; cbc = nbc;
 					flag = true;
-				} else if(map[nbr][nbc] == '#') {
-					bStop = true;
 				} else if(map[nbr][nbc] == 'O') {
 					return new int[] {-1, nrr, nrc, nbr, nbc};
 				}
