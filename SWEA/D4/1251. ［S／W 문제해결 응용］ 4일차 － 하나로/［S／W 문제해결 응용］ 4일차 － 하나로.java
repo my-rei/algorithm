@@ -29,6 +29,7 @@ public class Solution {
 			st2 = new StringTokenizer(br.readLine());
 			pq.clear();
 			for(int i = 0;i<N;i++) {
+				parents[i] = i;
 				ix[i] = Integer.parseInt(st.nextToken());
 				iy[i] = Integer.parseInt(st2.nextToken());
 				for(int j = 0;j<i;j++) {
@@ -39,7 +40,6 @@ public class Solution {
 			
 			int count = 0;
 			long sum = 0;
-			makeset();
 			while(!pq.isEmpty()) {
 				long[] now = pq.poll();
 				if(union((int) now[0], (int) now[1])) {
@@ -54,9 +54,7 @@ public class Solution {
 		bw.flush();
 	}
 	
-	static void makeset() {
-		for(int i = 0;i<N;i++) parents[i] = i;
-	}
+
 	static int find(int a) {
 		if(parents[a] == a) return a;
 		else return parents[a] = find(parents[a]);
