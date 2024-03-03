@@ -27,19 +27,15 @@ public class Solution {
 			iy = new int[N];
 			st = new StringTokenizer(br.readLine());
 			st2 = new StringTokenizer(br.readLine());
+			pq.clear();
 			for(int i = 0;i<N;i++) {
 				ix[i] = Integer.parseInt(st.nextToken());
 				iy[i] = Integer.parseInt(st2.nextToken());
-			}
-			E = Double.parseDouble(br.readLine());
-			
-			//각섬사이거리구하기
-			pq.clear();
-			for(int i = 0;i<N;i++) {
-				for(int j = i+1;j<N;j++) {
+				for(int j = 0;j<i;j++) {
 					pq.add(new long[] {i, j, (long) (Math.pow(ix[i]-ix[j], 2)+ Math.pow(iy[i]-iy[j], 2))});
 				}
 			}
+			E = Double.parseDouble(br.readLine());
 			
 			int count = 0;
 			long sum = 0;
