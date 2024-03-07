@@ -10,21 +10,18 @@ public class Main {
 		StringTokenizer st = null;
 		
 		int N = Integer.parseInt(br.readLine());
-		long[][] cor = new long[N][2];
+		int[][] cor = new int[N][2];
 		for(int i = 0;i<N;i++) {
 			st = new StringTokenizer(br.readLine());
-			cor[i][0] = Long.parseLong(st.nextToken());
-			cor[i][1] = Long.parseLong(st.nextToken());
+			cor[i][0] = Integer.parseInt(st.nextToken());
+			cor[i][1] = Integer.parseInt(st.nextToken());
 		}
 		
 		double res = 0;
-		
 		for(int i = 1;i<N-1;i++) {
-			res += getTri(cor[0][0], cor[0][1], cor[i][0], cor[i][1], cor[i+1][0], cor[i+1][1])/2.0;
+			res += getTri(cor[0][0], cor[0][1], cor[i][0], cor[i][1], cor[i+1][0], cor[i+1][1]);
 		}
-		//res = (double) Math.round(res*10)/10.0;
-		res = Math.abs(res);
-		BigDecimal bd = new BigDecimal(res);
+		res = Math.abs(res)/2;
 		bw.write(String.format("%.1f", res));
 		bw.flush();
 	}
