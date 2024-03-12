@@ -17,19 +17,18 @@ public class Main {
 		dp[2] = 1; list[2].add(2);
 		dp[3] = 1; list[3].add(3); 
 		for(int i = 4;i<=N;i++) {
+			int flag = 1;
 			dp[i] = dp[i-1]+1;
-			list[i] = new ArrayList<>(list[i-1]);
-			list[i].add(i);
 			if(i%2==0 && dp[i] > dp[i/2]+1) {
 				dp[i] = dp[i/2]+1;
-				list[i] = new ArrayList<>(list[i/2]);
-				list[i].add(i);
+				flag = 2;
 			}
 			if(i%3==0 && dp[i] > dp[i/3]+1) {
 				dp[i] = dp[i/3]+1;
-				list[i] = new ArrayList<>(list[i/3]);
-				list[i].add(i);
+				flag = 3;
 			}
+			list[i] = new ArrayList<>(flag == 1? list[i-1]:list[i/flag]);
+			list[i].add(i);
 		}
 		
 		sb.append(dp[N]+"\n");
