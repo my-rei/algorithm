@@ -2,8 +2,10 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	static int L, R, C;
+	static int L, R, C, sl, sr, sc;
 	static char[][][] map;
+	static boolean[][][] vs;
+	static Queue<int[]> queue;
 	static int[] dl= {0,0,0,0,-1,1}, dr= {1,-1,0,0,0,0}, dc= {0,0,1,-1,0,0};
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -39,25 +41,12 @@ public class Main {
 	
 	static int bfs() {
 		//변수선언
-		Queue<int[]> queue = new ArrayDeque<>();
-		boolean[][][] vs = new boolean[L][R][C];
-		int nl=0, nr=0, nc=0, time=0;
-		
+		queue = new ArrayDeque<>();
+		vs = new boolean[L][R][C];
 		//출발점 찾기
-		for(int i = 0;i<L;i++) {
-			for(int j = 0;j<R;j++) {
-				for(int k = 0;k<C;k++) {
-					if(map[i][j][k] == 'S') {
-						nl = i; nr=j; nc=k;
-						break;
-					}
-				}
-				if(nl != 0) break;
-			}
-			if(nl != 0) break;
-		}
-		vs[nl][nr][nc] = true;
-		queue.add(new int[] {nl, nr, nc, 0});
+		findS();
+		vs[sl][sr][sc] = true;
+		queue.add(new int[] {sl, sr, sc, 0});
 		
 		
 		while(!queue.isEmpty()) {
@@ -73,7 +62,16 @@ public class Main {
 				}
 			}
 		}
-		
 		return -1;
+	}
+	
+	static void findS() {
+		for(int i = 0;i<L;i++) 
+			for(int j = 0;j<R;j++) 
+				for(int k = 0;k<C;k++) 
+					if(map[i][j][k] == 'S') {
+						sl = i; sr=j; sc=k;
+						return;
+					}
 	}
 }
