@@ -41,20 +41,36 @@ public class Main {
 	}
 
 	static void wall() {
+		int[] chk = new int[4];
+		Arrays.fill(chk, -1);
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if (map[i][j] == 0) continue;
 				result[i][j] = 1;
-				List<Integer> list = new ArrayList<>();
+				int cnt = 0; 
 				for (int d = 0; d < 4; d++) {
 					int nr = i + dr[d], nc = j + dc[d];
 					if (nr < 0 || nr >= N || nc < 0 || nc >= M) continue;
 					if (map[nr][nc] == 1) continue;
 					int pn = parent[nr*M+nc];
-					if(list.contains(pn)) continue;
+					boolean f = false;
+					for(int k=0;k<cnt;k++) 
+						if(chk[k]==pn) 
+							f = true;
+					if(f) continue;
+					chk[cnt++] = pn;
 					result[i][j] += size[pn] % 10;
-					list.add(pn);
 				}
+//				List<Integer> list = new ArrayList<>();
+//				for (int d = 0; d < 4; d++) {
+//					int nr = i + dr[d], nc = j + dc[d];
+//					if (nr < 0 || nr >= N || nc < 0 || nc >= M) continue;
+//					if (map[nr][nc] == 1) continue;
+//					int pn = parent[nr*M+nc];
+//					if(list.contains(pn)) continue;
+//					result[i][j] += size[pn] % 10;
+//					list.add(pn);
+//				}
 			}
 		}
 	}
@@ -76,15 +92,6 @@ public class Main {
 				}
 			}
 		}
-//		for (int i = 0; i < N; i++) {
-//			for (int j = 0; j < M; j++) {
-//				if (map[i][j] == 0)
-//					System.out.print(parent[i * M + j]);
-//				else
-//					System.out.print("-");
-//			}
-//			System.out.println();
-//		}
 	}
 
 	static void bfs(int i, int j) {
@@ -110,8 +117,7 @@ public class Main {
 	static void makeset() {
 		parent = new int[N * M];
 		size = new int[N * M];
-		for (int i = 0; i < N * M; i++)
-			parent[i] = i;
+		for (int i = 0; i < N * M; i++) parent[i] = i;
 	}
 
 	static int find(int r, int c) {
