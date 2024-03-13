@@ -28,13 +28,13 @@ public class Main {
 			for(int i=0;i<H;i++) {
 				map[i] = br.readLine().toCharArray();
 				for(int j = 0;j<W;j++) {
-					if((i==0||i==H-1||j==0||j==W-1)&&(map[i][j] >= 'A' && map[i][j] <='Z')) {
+					if(!(i==0||i==H-1||j==0||j==W-1)) continue;
+					if(map[i][j] >= 'A' && map[i][j] <='Z') {
 						doorQueue.add(new int[] {i,j});
 						continue;
 					}
-					if((i==0||i==H-1||j==0||j==W-1)&&(map[i][j]=='.'||map[i][j]=='$'||(map[i][j] >= 'a' && map[i][j] <='z'))) {
+					if(map[i][j]=='.'||map[i][j]=='$'||(map[i][j] >= 'a' && map[i][j] <='z')) {
 						if(map[i][j]=='$') {
-//							System.out.println(i+ " "+j);
 							docu++;
 							map[i][j] = '.';
 						}
@@ -66,13 +66,14 @@ public class Main {
 		int ds = doorQueue.size();
 		while(ds-->0) {
 			int[] door = doorQueue.poll();
-			if(map[door[0]][door[1]] != '.' && key[map[door[0]][door[1]]-'A'] > 0) {
+			if(map[door[0]][door[1]] == '.') continue;
+			if(key[map[door[0]][door[1]]-'A'] > 0) {
 				map[door[0]][door[1]] = '.';
 				vs[door[0]][door[1]] = true;
 				queue.add(new int[] {door[0], door[1]});
-			} else {
-				doorQueue.add(door);
-			}
+				continue;
+			} 
+			doorQueue.add(door);
 		}
 		while(!queue.isEmpty()) {
 			int[] now = queue.poll();
@@ -96,13 +97,14 @@ public class Main {
 			ds = doorQueue.size();
 			while(ds-->0) {
 				int[] door = doorQueue.poll();
-				if(map[door[0]][door[1]] != '.' && key[map[door[0]][door[1]]-'A'] > 0) {
+				if(map[door[0]][door[1]] == '.') continue;
+				if(key[map[door[0]][door[1]]-'A'] > 0) {
 					map[door[0]][door[1]] = '.';
 					vs[door[0]][door[1]] = true;
 					queue.add(new int[] {door[0], door[1]});
-				} else {
-					doorQueue.add(door);
-				}
+					continue;
+				} 
+				doorQueue.add(door);
 			}
 		}
 	}
