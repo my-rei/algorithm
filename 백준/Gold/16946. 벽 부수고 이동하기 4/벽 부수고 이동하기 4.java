@@ -50,27 +50,14 @@ public class Main {
 				int cnt = 0; 
 				for (int d = 0; d < 4; d++) {
 					int nr = i + dr[d], nc = j + dc[d];
-					if (nr < 0 || nr >= N || nc < 0 || nc >= M) continue;
-					if (map[nr][nc] == 1) continue;
+					if (nr < 0 || nr >= N || nc < 0 || nc >= M || map[nr][nc] == 1) continue;
 					int pn = parent[nr*M+nc];
 					boolean f = false;
-					for(int k=0;k<cnt;k++) 
-						if(chk[k]==pn) 
-							f = true;
+					for(int k=0;k<cnt;k++) if(chk[k]==pn) f = true;
 					if(f) continue;
 					chk[cnt++] = pn;
 					result[i][j] += size[pn] % 10;
 				}
-//				List<Integer> list = new ArrayList<>();
-//				for (int d = 0; d < 4; d++) {
-//					int nr = i + dr[d], nc = j + dc[d];
-//					if (nr < 0 || nr >= N || nc < 0 || nc >= M) continue;
-//					if (map[nr][nc] == 1) continue;
-//					int pn = parent[nr*M+nc];
-//					if(list.contains(pn)) continue;
-//					result[i][j] += size[pn] % 10;
-//					list.add(pn);
-//				}
 			}
 		}
 	}
@@ -79,7 +66,8 @@ public class Main {
 		vs = new boolean[N][M];
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
-				if (map[i][j] == 0 && !vs[i][j]) {
+				if (map[i][j] == 0 && parent[i*M+j] == i*M+j) {
+//				if (map[i][j] == 0 && !vs[i][j]) {
 					bfs(i, j);
 				}
 			}
