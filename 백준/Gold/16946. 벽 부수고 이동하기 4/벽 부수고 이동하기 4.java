@@ -5,7 +5,6 @@ public class Main {
 	static int N, M;
 	static int[][] map, result;
 	static int[] parent, size;
-	static boolean[][] vs;
 	static Queue<int[]> queue;
 	static int[] dr = { 0, 1, 0, -1 }, dc = { 1, 0, -1, 0 };
 
@@ -63,11 +62,9 @@ public class Main {
 	}
 
 	static void search() {
-		vs = new boolean[N][M];
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if (map[i][j] == 0 && parent[i*M+j] == i*M+j) {
-//				if (map[i][j] == 0 && !vs[i][j]) {
 					bfs(i, j);
 				}
 			}
@@ -85,17 +82,13 @@ public class Main {
 	static void bfs(int i, int j) {
 		queue = new ArrayDeque<>();
 		queue.add(new int[] { i, j });
-		vs[i][j] = true;
 		while (!queue.isEmpty()) {
 			int[] now = queue.poll();
 			for (int d = 0; d < 4; d++) {
 				int nr = now[0] + dr[d], nc = now[1] + dc[d];
-				if (nr < 0 || nr >= N || nc < 0 || nc >= M)
-					continue;
-				if (map[nr][nc] == 1)
+				if (nr < 0 || nr >= N || nc < 0 || nc >= M || map[nr][nc] == 1)
 					continue;
 				if (union(nr, nc, now[0], now[1])) {
-					vs[nr][nc] = true;
 					queue.add(new int[] { nr, nc });
 				}
 			}
