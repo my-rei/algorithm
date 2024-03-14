@@ -10,24 +10,21 @@ public class Main {
 		
 		int N = Integer.parseInt(st.nextToken()), S = Integer.parseInt(st.nextToken());
 		int[] nums = new int[N];
-		int[] sums = new int[N+1];
 		st = new StringTokenizer(br.readLine());
 		for(int i = 0;i<N;i++) {
 			nums[i] = Integer.parseInt(st.nextToken());
-			//sums[i+1] = sums[i] + nums[i];
 		}
 		
 		int left = 0, right = 0, length = Integer.MAX_VALUE, tmp = nums[0];
-		while(left <= right) {
+		while(true) {
 			if(tmp >= S) {
 				length = Math.min(length, right-left+1);
 				tmp -= nums[left];
 				left++;
+				if(left > right) break;
 			} else {
-				if(right == N-1) {
-					break;
-				}
 				right++;
+				if(right == N)  break;
 				tmp += nums[right];	
 			}
 		}
