@@ -6,11 +6,14 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
-		int L = Integer.parseInt(br.readLine()), result = 0, r = 31, M = 1234567891;
+		int L = Integer.parseInt(br.readLine()), r = 31, M = 1234567891;
+		long result = 0, cur = 1;
 		String target = br.readLine();
 		
-		for(int i = 0;i<L;i++) 
-			result += (target.charAt(i)-'a'+1)*Math.pow(r, i)%M;
+		for(int i = 0;i<L;i++) {
+			result += (target.charAt(i)-'a'+1)*(cur);
+			cur = (cur*r)%M;
+		}
 		
 		bw.write(String.valueOf(result%M));
 		bw.flush();
