@@ -10,7 +10,6 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		StringBuilder sb = new StringBuilder();
 		StringTokenizer st = null;
 
 		N = Integer.parseInt(br.readLine());
@@ -33,18 +32,16 @@ public class Main {
 		int result = 0;
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				int e = 0, f = 0, n = map[i][j];
+				int f = 0, n = map[i][j];
 				for (int d = 0; d < 4; d++) {
 					int nr = i + dr[d], nc = j + dc[d];
 					if (nr < 0 || nr >= N || nc < 0 || nc >= N) continue;
-					if (map[nr][nc] == 0) e++;
-					else {
-						for (int l : like[n])
-							if (l == map[nr][nc])
-								f++;
-					}
+					for (int l : like[n])
+						if (l == map[nr][nc])
+							f++;
+
 				}
-				result += Math.pow(10, f)/10;
+				result += Math.pow(10, f) / 10;
 			}
 		}
 		return result;
@@ -52,11 +49,10 @@ public class Main {
 
 	static void find(int n) {
 		// 적합한 자리에 배정
-		int maxEmpty = -1, maxFriend = -1, er = 0, ec = 0, fr = 0, fc = 0, mec = 0;
+		int maxEmpty = -1, maxFriend = -1, er = 0, ec = 0;
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				if (map[i][j] != 0)
-					continue;
+				if (map[i][j] != 0) continue;
 				int e = 0, f = 0;
 				for (int d = 0; d < 4; d++) {
 					int nr = i + dr[d], nc = j + dc[d];
@@ -74,12 +70,10 @@ public class Main {
 					maxEmpty = e;
 					er = i;
 					ec = j;
-				} else if (f == maxFriend) {
-					if (e > maxEmpty) {
-						maxEmpty = e;
-						er = i;
-						ec = j;
-					}
+				} else if (f == maxFriend && e > maxEmpty) {
+					maxEmpty = e;
+					er = i;
+					ec = j;
 				}
 			}
 		}
