@@ -8,13 +8,12 @@ public class Main {
 		
 		int N = Integer.parseInt(br.readLine());
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int[] nums = new int[N];
-		nums[0] = Integer.parseInt(st.nextToken());
+		int tmp = Integer.parseInt(st.nextToken());
 		long[] dp = new long[N];
-		dp[0] = nums[0]; long maxSum = nums[0];
+		dp[0] = tmp; long maxSum = tmp;
 		for(int i = 1;i<N;i++) {
-			nums[i] = Integer.parseInt(st.nextToken());
-			dp[i] = Math.max(nums[i]+dp[i-1], nums[i]);
+			tmp = Integer.parseInt(st.nextToken());
+			dp[i] = Math.max(tmp+dp[i-1], tmp);
 			maxSum = Math.max(dp[i], maxSum);
 		}
 		bw.write(String.valueOf(maxSum));
