@@ -32,16 +32,17 @@ public class Main {
 	
 	static void dijkstra() {
 		Queue<int[]> queue = new ArrayDeque<>();
-		queue.add(new int[] {0,0, map[0][0]});
+		queue.add(new int[] {0,0});
+		dis[0][0] = map[0][0];
 		
 		while(!queue.isEmpty()) {
 			int[] now = queue.poll();
 			for(int d=0;d<4;d++) {
 				int nr = now[0]+dr[d], nc = now[1]+dc[d];
 				if(nr<0||nr>=N||nc<0||nc>=N) continue;
-				if(dis[nr][nc] == -1 || now[2] + map[nr][nc] < dis[nr][nc]) {
-					dis[nr][nc] = now[2]+map[nr][nc];
-					queue.add(new int[] {nr, nc, dis[nr][nc]});
+				if(dis[nr][nc] == -1 || dis[now[0]][now[1]] + map[nr][nc] < dis[nr][nc]) {
+					dis[nr][nc] = dis[now[0]][now[1]]+map[nr][nc];
+					queue.add(new int[] {nr, nc});
 				}
 			}
 		}
