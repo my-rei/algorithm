@@ -34,7 +34,7 @@ public class Main {
 	
 	static int findAndRemove() {
 		int maxSize = 1, maxR = 0;
-		Queue<int[]> maxQ = null;
+		Queue<int[]> maxQ = null, q = new ArrayDeque<>();
 		vs = new boolean[N][N];
 
 		for(int i = 0;i<N;i++) {
@@ -42,7 +42,7 @@ public class Main {
 				if(vs[i][j]) continue;
 				if(map[i][j] <= 0) continue;
 				vs[i][j] = true;
-				Queue<int[]> q = new ArrayDeque<>(), saveQ = new ArrayDeque<>();
+				Queue<int[]> saveQ = new ArrayDeque<>();
 				q.add(new int[] {i,j});
 				
 				int size = 1, rCount=0;
@@ -68,10 +68,9 @@ public class Main {
 				}
 				
 				while(size-- > 0) {
-					int[] now = saveQ.poll();
-					if(map[now[0]][now[1]] == 0)
-						vs[now[0]][now[1]] = false;
-					saveQ.add(now); 	
+					if(map[saveQ.peek()[0]][saveQ.peek()[1]] == 0)
+						vs[saveQ.peek()[0]][saveQ.peek()[1]] = false;
+					saveQ.add(saveQ.poll()); 	
 				}
 			}
 		}
