@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Arrays;
 
 public class Main {
 	static final int N=9;
@@ -37,30 +38,24 @@ public class Main {
 			return;
 		}
 		int r = cor/N, c = cor%N;
-		if(puzzle[r][c] != 0) {
-			dfs(cor+1); 
-			return;
-		}
-		for(int n = 1;n<=9;n++) {
-			if(isValid(r, c, n)) {
-				puzzle[r][c] = n;
-				dfs(cor+1);
-				puzzle[r][c] = 0;
+		if(puzzle[r][c] != 0) { dfs(cor+1); }
+		else {
+			boolean[] chk = new boolean[N+1];
+			int offsetR = (r/3)*3, offsetC = (c/3)*3;
+			for(int i = 0;i<N;i++) {
+				chk[puzzle[r][i]] = true;
+				chk[puzzle[i][c]] = true;
+				chk[puzzle[offsetR+i/3][offsetC+i%3]] = true;
+			}
+			for(int n = 1;n<=9;n++) {
+				if(!chk[n]) {
+					puzzle[r][c] = n;
+					dfs(cor+1);
+					puzzle[r][c] = 0;
+				}
 			}
 		}
 	}
 	
-	static boolean isValid(int r, int c, int n) {
-		for(int j = 0;j<N;j++) {
-			if(puzzle[r][j] == n) return false;
-			if(puzzle[j][c] == n) return false;
-		}
-
-		int offsetR = (r/3)*3, offsetC = (c/3)*3;
-		for(int i = 0;i<3;i++) 
-			for(int j = 0;j<3;j++) 
-				if(puzzle[offsetR+i][offsetC+j] == n) return false;
-		return true;
-	}
 	
 }
