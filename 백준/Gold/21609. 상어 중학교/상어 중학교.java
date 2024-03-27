@@ -22,63 +22,18 @@ public class Main {
 		
 		int score = 0, result = 0;
 		while((score = findAndRemove()) != -1) {
-//			System.out.println(score);
-//			for(int i = 0;i<N;i++) {
-//				for(int j = 0;j<N;j++) {
-//					System.out.print((map[i][j]==Integer.MIN_VALUE? "-":map[i][j])+" ");
-//				}
-//				System.out.println();
-//			}
-//			System.out.println("-------------------");
 			result += score;
 			down();
-//			for(int i = 0;i<N;i++) {
-//				for(int j = 0;j<N;j++) {
-//					System.out.print((map[i][j]==Integer.MIN_VALUE? "-":map[i][j])+" ");
-//				}
-//				System.out.println();
-//			}
-//			System.out.println("-------------------");
 			turn();
-//			for(int i = 0;i<N;i++) {
-//				for(int j = 0;j<N;j++) {
-//					System.out.print((map[i][j]==Integer.MIN_VALUE? "-":map[i][j])+" ");
-//				}
-//				System.out.println();
-//			}
-//			System.out.println("-------------------");
 			down();
-//			for(int i = 0;i<N;i++) {
-//				for(int j = 0;j<N;j++) {
-//					System.out.print((map[i][j]==Integer.MIN_VALUE? "-":map[i][j])+" ");
-//				}
-//				System.out.println();
-//			}
-//			System.out.println("=================");
 		}
 		
 		bw.write(String.valueOf(result));
 		bw.flush();
-//		findAndRemove();
-//		down();
-//		turn();
-//		for(int i = 0;i<N;i++) {
-//			for(int j = 0;j<N;j++) {
-//				System.out.print((map[i][j]==Integer.MIN_VALUE? "-":map[i][j])+" ");
-//			}
-//			System.out.println();
-//		}
-//		down();
-//		for(int i = 0;i<N;i++) {
-//			for(int j = 0;j<N;j++) {
-//				System.out.print((map[i][j]==Integer.MIN_VALUE? "-":map[i][j])+" ");
-//			}
-//			System.out.println();
-//		}
 	}
 	
 	static int findAndRemove() {
-		int score = 0, maxSize = 1, maxR = 0;
+		int maxSize = 1, maxR = 0;
 		Queue<int[]> maxQ = null;
 		vs = new boolean[N][N];
 
@@ -89,24 +44,23 @@ public class Main {
 				vs[i][j] = true;
 				Queue<int[]> q = new ArrayDeque<>(), saveQ = new ArrayDeque<>();
 				q.add(new int[] {i,j});
-				saveQ.add(new int[] {i,j});
+				
 				int size = 1, rCount=0;
 				while(!q.isEmpty()) {
 					int[] now = q.poll();
 					for(int d = 0;d<4;d++) {
 						int nr = now[0]+dr[d], nc = now[1]+dc[d];
 						if(nr<0||nr>=N||nc<0||nc>=N||vs[nr][nc]) continue;
-						if(map[nr][nc] == map[i][j] || map[nr][nc] == 0) {
-							vs[nr][nc] = true;
-							q.add(new int[] {nr,nc});
-							saveQ.add(new int[] {nr, nc});
-							size++;
-							if(map[nr][nc] == 0) rCount++;
-						}
+						if(!(map[nr][nc] == map[i][j] || map[nr][nc] == 0)) continue;
+						vs[nr][nc] = true;
+						q.add(new int[] {nr,nc});
+						saveQ.add(new int[] {nr, nc});
+						size++;
+						if(map[nr][nc] == 0) rCount++;
 					}
 				}
 				if(size == 1) continue;
-				
+				saveQ.add(new int[] {i,j});
 				if(maxSize < size || maxSize==size&&maxR <= rCount) {
 					maxSize = size;
 					maxQ = saveQ;
@@ -119,8 +73,6 @@ public class Main {
 						vs[now[0]][now[1]] = false;
 					saveQ.add(now); 	
 				}
-				
-				
 			}
 		}
 		
@@ -137,36 +89,29 @@ public class Main {
 	
 	static void turn() {
 		int[][] newMap = new int[N][N];
-		for(int i = 0;i<N;i++) {
-			for(int j = 0;j<N;j++) {
+		for(int i = 0;i<N;i++) 
+			for(int j = 0;j<N;j++) 
 				newMap[N-j-1][i] = map[i][j];
-			}
-		}
 		map = newMap;
 	}
 	static void down() {
-		int[][] newMap = new int[N][N];
+		Queue<Integer> q = new ArrayDeque<>();
 		for(int j = 0;j<N;j++) {
-			Queue<Integer> q = new ArrayDeque<>();
 			for(int i=N-1;i>-1;i--) {
 				if(map[i][j] == Integer.MIN_VALUE) continue;
 				if(map[i][j] == -1) {
-					int s= q.size();
-					for(int k = 0;k<(N-i-s-1);k++) {
+					for(int k = N-i-q.size()-1;k>0;k--) {
 						q.add(Integer.MIN_VALUE);
 					}
 				}
 				q.add(map[i][j]);
 			}
 			for(int i=N-1;i>-1;i--) {
-				if(q.isEmpty()) {
-					newMap[i][j] = Integer.MIN_VALUE;
-				} else {
-					newMap[i][j] = q.poll();	
-				}
-				
+				if(q.isEmpty()) 
+					map[i][j] = Integer.MIN_VALUE;
+				else 
+					map[i][j] = q.poll();	
 			}
 		}
-		map = newMap;
 	}
 }
