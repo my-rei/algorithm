@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.*;
 
 public class Main {
 	static final int N=9;
@@ -11,7 +10,6 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		sb = new StringBuilder();
-		StringTokenizer st = null;
 		
 		puzzle = new int[N][N];
 		for(int i = 0;i<N;i++) {
@@ -53,16 +51,11 @@ public class Main {
 	}
 	
 	static boolean isValid(int r, int c, int n) {
-		//일부 정합성만 판별 -> 중복만 거른다 
-		//행 탐색
-		for(int j = 0;j<N;j++) 
+		for(int j = 0;j<N;j++) {
 			if(puzzle[r][j] == n) return false;
-		
-		//열 탐색
-		for(int i = 0;i<N;i++) 
-			if(puzzle[i][c] == n) return false;
+			if(puzzle[j][c] == n) return false;
+		}
 
-		//구역 탐색
 		int offsetR = (r/3)*3, offsetC = (c/3)*3;
 		for(int i = 0;i<3;i++) 
 			for(int j = 0;j<3;j++) 
