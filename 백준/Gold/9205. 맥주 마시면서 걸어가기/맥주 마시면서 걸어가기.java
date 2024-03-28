@@ -3,8 +3,9 @@ import java.util.*;
 
 public class Main {
 	static int N;
-	static Point house, fest;
+	static Point fest;
 	static Point[] points;
+	static Queue<Point> q;
 	static class Point {
 		int x, y;
 		public Point(int x, int y) {
@@ -21,7 +22,8 @@ public class Main {
 			N = Integer.parseInt(br.readLine());
 			points = new Point[N];
 			st = new StringTokenizer(br.readLine());
-			house = new Point(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+			q = new ArrayDeque<>();
+			q.add(new Point(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
 			for(int i = 0;i<N;i++) {
 				st = new StringTokenizer(br.readLine());
 				points[i] = new Point(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
@@ -36,11 +38,8 @@ public class Main {
 	}
 	
 	static boolean bfs() {
-		Queue<Point> q = new ArrayDeque<>();
-		q.add(house);
 		while(!q.isEmpty()) {
 			Point p = q.poll();
-//			System.out.println(p.x+" "+p.y);
 			if(getDis(p, fest) <= 1000) return true;
 			for(int i = 0;i<N;i++) {
 				if(getDis(p, points[i])<=1000) {
@@ -49,7 +48,6 @@ public class Main {
 				}
 			}
 		}
-		
 		return false;
 	}
 	
