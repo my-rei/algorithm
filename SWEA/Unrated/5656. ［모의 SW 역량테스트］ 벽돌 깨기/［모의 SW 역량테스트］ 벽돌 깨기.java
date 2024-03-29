@@ -86,11 +86,11 @@ public class Solution {
                 int cr = iQueue.peek()[0], cc = iQueue.peek()[1];
                 for(int l = 1;l<level;l++) {
                     cr += dr[d]; cc += dc[d];
-                    if(cr>-1&&cr<H&&cc>-1&&cc<W&&map[cr][cc] != '0') {
-                        if(map[cr][cc] != '1') iQueue.add(new int[] {cr, cc, map[cr][cc]-'0'});
-                        map[cr][cc] = '0';
-                        count++;
-                    }
+                    if(cr<0||cr>=H||cc<0||cc>=W) break;
+                    if(map[cr][cc] == '0') continue;
+                    if(map[cr][cc] != '1') iQueue.add(new int[] {cr, cc, map[cr][cc]-'0'});
+                    map[cr][cc] = '0';
+                    count++;
                 }
             }
              
