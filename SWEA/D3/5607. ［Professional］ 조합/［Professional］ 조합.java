@@ -5,7 +5,6 @@ public class Solution {
 	static final int P=1234567891;
 	static int N, R;
 	static long rnr, rr;
-	static long[] fac;
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,8 +25,7 @@ public class Solution {
 	static long nCr(int n, int r, int p) {
 		if (r == 0) return 1L;
 //		return ( fact(n) * pow(rnr, p-2, p)%p * pow(rr, p-2, p)%p ) %p;
-		
-		fac = new long[n+1];
+
 		long s = 1; rnr = 1; rr = 1;
 		for(int i = 1;i<=n;i++) {
 			s = s*i % p;
