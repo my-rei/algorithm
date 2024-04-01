@@ -26,11 +26,22 @@ public class Solution {
 	static long nCr(int n, int r, int p) {
 		if (r == 0) return 1L;
 //		return ( fact(n) * pow(rnr, p-2, p)%p * pow(rr, p-2, p)%p ) %p;
+		
 		fac = new long[n+1];
-		fac[0] = 1;
-		for(int i = 1;i<=n;i++)
-			fac[i] = fac[i-1] * i % p;
-		return ( fac[n] * pow(fac[n-r], p-2, p)%p * pow(fac[r], p-2, p)%p ) %p;
+		long s = 1; rnr = 1; rr = 1;
+		for(int i = 1;i<=n;i++) {
+			s = s*i % p;
+			if(i == N-R) rnr = s;
+			if(i == R) rr = s;
+		}
+		return ( s * pow(rnr, p-2, p)%p * pow(rr, p-2, p)%p ) %p;
+		
+		
+//		fac = new long[n+1];
+//		fac[0] = 1;
+//		for(int i = 1;i<=n;i++)
+//			fac[i] = fac[i-1] * i % p;
+//		return ( fac[n] * pow(fac[n-r], p-2, p)%p * pow(fac[r], p-2, p)%p ) %p;
 	}
 	
 //	static long fact(int cur) {
