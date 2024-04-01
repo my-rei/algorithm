@@ -4,7 +4,6 @@ import java.util.*;
 public class Solution {
 	static final int P=1234567891;
 	static int N, R;
-	static long rnr, rr;
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,38 +15,23 @@ public class Solution {
 		for(int test = 1;test<=T;test++) {
 			st = new StringTokenizer(br.readLine());
 			N = Integer.parseInt(st.nextToken()); R = Integer.parseInt(st.nextToken());
-			sb.append("#"+test+" "+nCr(N, R, P)+"\n");
+			sb.append("#"+test+" "+nCr(N, R)+"\n");
 		}
 		bw.write(sb.toString());
 		bw.flush();
 	}
 	
-	static long nCr(int n, int r, int p) {
+	static long nCr(int n, int r) {
 		if (r == 0) return 1L;
-//		return ( fact(n) * pow(rnr, p-2, p)%p * pow(rr, p-2, p)%p ) %p;
 
-		long s = 1; rnr = 1; rr = 1;
+		long s = 1, rnr =1, rr =1;
 		for(int i = 1;i<=n;i++) {
-			s = s*i % p;
+			s = s*i % P;
 			if(i == N-R) rnr = s;
 			if(i == R) rr = s;
 		}
-		return ( s * pow(rnr, p-2, p)%p * pow(rr, p-2, p)%p ) %p;
-		
-		
-//		fac = new long[n+1];
-//		fac[0] = 1;
-//		for(int i = 1;i<=n;i++)
-//			fac[i] = fac[i-1] * i % p;
-//		return ( fac[n] * pow(fac[n-r], p-2, p)%p * pow(fac[r], p-2, p)%p ) %p;
+		return ( s * pow(rnr, P-2, P)%P * pow(rr, P-2, P)%P ) %P;
 	}
-	
-//	static long fact(int cur) {
-//		long res = cur == 0? 1:fact(cur-1)*cur%P;
-//		if(cur == N-R) rnr = res;
-//		if(cur == R) rr = res;
-//		return res;
-//	}
 	
 	static long pow(long x, long y, long p) {
 		long res = 1L;
