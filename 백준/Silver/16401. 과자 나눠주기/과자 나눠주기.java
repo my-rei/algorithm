@@ -8,7 +8,6 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		StringBuilder sb = new StringBuilder();
 		
 		M=Integer.parseInt(st.nextToken()); N=Integer.parseInt(st.nextToken());
 		nums = new int[N];
@@ -37,13 +36,11 @@ public class Main {
 	
 	static int countCookie(int target) {
 		int cnt = 0;
-		cnt = 0;
 		for(int i=0;i<nums.length;i++) {
 			cnt += nums[i]/target;
 		}
 		if(cnt >= M)
 			return target;
-		
 		return 0;
 	}
 }
