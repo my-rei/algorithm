@@ -36,11 +36,10 @@ public class Solution {
 					}
 				}
 			}
-			
 
 			int count = 0;
 			for(int i = 0;i<N;i++) 
-				if(stu[i] == N-1)
+				if(stu[i] >= N-1)
 					count++;
 
 			sb.append("#"+test+" "+count+"\n");	
