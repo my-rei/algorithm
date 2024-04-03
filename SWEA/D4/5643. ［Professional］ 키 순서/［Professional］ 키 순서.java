@@ -7,7 +7,6 @@ public class Solution {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		StringBuilder sb = new StringBuilder();
 		StringTokenizer st = null;
 		
 		int T = Integer.parseInt(br.readLine());
@@ -38,9 +37,10 @@ public class Solution {
 				cnt += count(i);
 			
 //			sb.append("#"+test+" "+cnt+"\n");
-			sb.append("#").append(test).append(" ").append(cnt).append("\n");
+//			sb.append("#").append(test).append(" ").append(cnt).append("\n");
+			bw.append("#").append(String.valueOf(test)).append(" ").append(String.valueOf(cnt)).append("\n");
 		}
-		bw.write(sb.toString());
+//		bw.write(sb.toString());
 		bw.flush();
 	}
 	
