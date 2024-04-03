@@ -24,22 +24,41 @@ public class Solution {
 				stu[a]++; stu[b]++;
 			}
 			
-			for(int i = 0;i<N;i++) {
-				for(int j = 0;j<N;j++) {
-					if(i==j || table[i][j]) continue;
-					for(int k = 0;k<N;k++) {
+			//bfs
+//			Queue<Integer> q = new ArrayDeque<>();
+//			for(int i = 0;i<N;i++) {
+//				for(int j = 0;j<N;j++) {
+//					if(table[i][j])
+//						q.add(j);
+//				}
+//				while(!q.isEmpty()) {
+//					int c = q.poll();
+//					for(int j=0;j<N;j++) {
+//						if(i != j && c != j && !table[i][j] && table[c][j]) {
+//							table[i][j] = true;
+//							q.add(j);
+//							stu[i]++; stu[j]++;
+//						}
+//					}
+//				}
+//			}
+			
+			//플로이드워샬
+			for(int k = 0;k<N;k++) {
+				for(int i = 0;i<N;i++) {
+					for(int j = 0;j<N;j++) {
+						if(i==j||table[i][j]) continue;
 						if(table[i][k] && table[k][j]) {
 							table[i][j] = true;
 							stu[i]++; stu[j]++;
-							break;
 						}
 					}
 				}
 			}
-
+			
 			int count = 0;
 			for(int i = 0;i<N;i++) 
-				if(stu[i] >= N-1)
+				if(stu[i] == N-1)
 					count++;
 
 			sb.append("#"+test+" "+count+"\n");	
