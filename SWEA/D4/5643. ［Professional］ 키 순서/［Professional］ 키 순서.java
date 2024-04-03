@@ -37,19 +37,19 @@ public class Solution {
 			for(int i = 1;i<=N;i++) 
 				cnt += count(i);
 			
-			sb.append("#"+test+" "+cnt+"\n");	
+//			sb.append("#"+test+" "+cnt+"\n");
+			sb.append("#").append(test).append(" ").append(cnt).append("\n");
 		}
 		bw.write(sb.toString());
 		bw.flush();
 	}
 	
 	static int count(int t) {
-		int r= 0;
 		for(int i = 1;i<=N;i++) {
 			if(i != t && !table[i][t] && !table[t][i]) {
 				return 0;
 			}
-			r++;
+//			r++;
 //			if(table[i][t]) r++;
 //			if(table[t][i]) r++;
 		}
