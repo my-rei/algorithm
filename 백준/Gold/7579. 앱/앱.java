@@ -30,38 +30,26 @@ public class Main {
 	
 	static int dpwithcost() {
 		int[][] dp = new int[N][C+1];
-		for(int c = 0;c<=C;c++) {
-			if(cost[0] <= c) {
+		for(int c = 0;c<=C;c++) 
+			if(cost[0] <= c) 
 				dp[0][c] = memory[0];
-			} else {
-				dp[0][c] = -1;
-			}
-		}
+
 		for(int i = 1;i<N;i++) {
 			for(int c= 0;c<=C;c++) {
 				if(cost[i] <= c) {
-					dp[i][c] = Math.max(memory[i], dp[i-1][c-cost[i]]+memory[i]);
-					dp[i][c] = Math.max(dp[i][c], dp[i-1][c]);
+					dp[i][c] = Math.max(dp[i-1][c], dp[i-1][c-cost[i]]+memory[i]);
 				} else {
 					dp[i][c] = dp[i-1][c];
 				}
 			}
 		}
 		
-//		for(int t = 0;t<N;t++) {
-//			for(int j = 0;j<=C;j++) {
-//				if(t == N-1)
-//				System.out.print(dp[t][j] +" ");
-//			}
-//			System.out.println();
-//		}
-		
-		for(int i = 0;i<=C;i++) {
-			if(dp[N-1][i] >= M) {
-				return i;
+		for(int c = 0;c<=C;c++) {
+			if(dp[N-1][c] >= M) {
+				return c;
 			}
 		}
+		
 		return C;
 	}
-	
 }
