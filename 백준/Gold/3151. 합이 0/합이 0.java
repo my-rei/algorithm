@@ -9,12 +9,14 @@ import java.util.StringTokenizer;
 public class Main {
 	static int N;
 	static int[] students;
+	static int[] up, lo;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		N = Integer.parseInt(br.readLine());
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		students = new int[N];
+		up = new int[20001]; lo = new int[20001];
 		for(int i = 0;i<N;i++) {
 			students[i] = Integer.parseInt(st.nextToken());
 		}
@@ -61,6 +63,7 @@ public class Main {
 	}
 	
 	static int getUpper(int value) {
+		if(up[value+10000] != 0) return up[value+10000];
 		int end = students.length;
 	    int start = 0;
 	    while(start<end){
@@ -71,9 +74,10 @@ public class Main {
 	            start = mid+1; 
 	        }
 	    }
-	    return end;
+	    return (up[value+10000]=end);
 	}
 	static int getLower(int value) {
+		if(lo[value+10000] != 0) return lo[value+10000];
 		int end = students.length;
 	    int start = 0;
 	    while(start<end){
@@ -84,6 +88,6 @@ public class Main {
 	            end = mid; 
 	        }
 	    }
-	    return start;
+	    return (lo[value+10000]=start);
 	}
 }
