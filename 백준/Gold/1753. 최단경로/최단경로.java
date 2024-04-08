@@ -11,16 +11,15 @@ public class Main {
 		int V = Integer.parseInt(st.nextToken()), E = Integer.parseInt(st.nextToken());
 
 		int K = Integer.parseInt(br.readLine());
-//		int[] dis = new int[V+1];
+
 		int[] fromK = new int[V + 1];
 		Arrays.fill(fromK, Integer.MAX_VALUE);
 		fromK[K] = 0;
-//		dis[K] = 0;
-		PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>() {
+		PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
 			@Override
-			public int compare(Integer o1, Integer o2) {
-//				return o1[0] - o2[0];
-				return fromK[o1] - fromK[o2];
+			public int compare(int[] o1, int[] o2) {
+				// TODO Auto-generated method stub
+				return o1[0] - o2[0];
 			}
 		});
 		List<int[]>[] edge = new List[V + 1];
@@ -32,23 +31,29 @@ public class Main {
 					w = Integer.parseInt(st.nextToken());
 			edge[u].add(new int[] { v, w });
 		}
-		
-		
-		
-		pq.add(K);
 
+		pq.add(new int[] { 0, K });
+//		boolean[] visited = new boolean[V + 1];
+//		int count = 1;
 		while (!pq.isEmpty()) {
-			int curV = pq.poll();
+//		while(count < V && !pq.isEmpty()) {
+			int[] now = pq.poll();
+			int curW = now[0], curV = now[1];
 
 			for (int i = 0; i < edge[curV].size(); i++) {
 				int nextV = edge[curV].get(i)[0];
 				int nextW = edge[curV].get(i)[1] + fromK[curV] ;
 				if (fromK[nextV] > nextW) {
 					fromK[nextV] = nextW;
-//					dis[nextV] = nextW;
-					pq.add(nextV);
+					pq.add(new int[] { nextW, nextV });
 				}
 			}
+			// System.out.println("=====");
+//				if(!visited[now[2]]) {
+//					visited[now[2]] = true;
+//					count++;
+//				}
+
 		}
 
 		for (int i = 1; i < V + 1; i++) {
