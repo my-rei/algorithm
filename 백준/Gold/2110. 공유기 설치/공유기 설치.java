@@ -55,7 +55,7 @@ public class Main {
 	static int count(int t) {
 		int last = list[0], cnt = 1;
 		
-		for(int i = 0;i<list.length;i++) {
+		for(int i = 0;i<list.length&&cnt<C;i++) {
 			if(list[i] - last >= t) {
 				last = list[i];
 				cnt++;
