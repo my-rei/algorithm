@@ -11,16 +11,16 @@ public class Main {
 		int V = Integer.parseInt(st.nextToken()), E = Integer.parseInt(st.nextToken());
 
 		int K = Integer.parseInt(br.readLine());
-		int[] dis = new int[V+1];
+//		int[] dis = new int[V+1];
 		int[] fromK = new int[V + 1];
 		Arrays.fill(fromK, Integer.MAX_VALUE);
 		fromK[K] = 0;
-		dis[K] = 0;
+//		dis[K] = 0;
 		PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>() {
 			@Override
 			public int compare(Integer o1, Integer o2) {
 //				return o1[0] - o2[0];
-				return dis[o1] - dis[o2];
+				return fromK[o1] - fromK[o2];
 			}
 		});
 		List<int[]>[] edge = new List[V + 1];
@@ -45,7 +45,7 @@ public class Main {
 				int nextW = edge[curV].get(i)[1] + fromK[curV] ;
 				if (fromK[nextV] > nextW) {
 					fromK[nextV] = nextW;
-					dis[nextV] = nextW;
+//					dis[nextV] = nextW;
 					pq.add(nextV);
 				}
 			}
