@@ -17,7 +17,7 @@ public class Main {
 				sc[i][1] = Integer.parseInt(st2.nextToken());
 			}
 			if(N==1) {
-				sb.append(Math.max(sc[0][0], sc[0][1])).append("\n");
+                bw.append(String.valueOf(Math.max(sc[0][0], sc[0][1]))).append("\n");
 				continue;
 			}
 			int[][] dp = new int[N][2];
@@ -28,18 +28,8 @@ public class Main {
 				dp[i][0] = Math.max(dp[i-1][1]+sc[i][0], Math.max(dp[i-2][0], dp[i-2][1])+sc[i][0]);
 				dp[i][1] = Math.max(dp[i-1][0]+sc[i][1], Math.max(dp[i-2][0], dp[i-2][1])+sc[i][1]);
 			}
-			
-//			for(int i = 0;i<N;i++) {
-//				System.out.print(dp[i][0]+" ");
-//			}
-//			System.out.println();
-//			for(int i = 0;i<N;i++) {
-//				System.out.print(dp[i][1]+" ");
-//			}
-//			System.out.println();
-			sb.append(Math.max(dp[N-1][0], dp[N-1][1])).append("\n");
+			bw.append(String.valueOf(Math.max(dp[N-1][0], dp[N-1][1]))).append("\n");
 		}
-		bw.write(sb.toString());
 		bw.flush();
 	}
 }
