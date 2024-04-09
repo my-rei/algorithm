@@ -1,17 +1,9 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 	static int N;
 	static int[] people;
-	static List<Integer>[] party;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -19,8 +11,9 @@ public class Main {
 		N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
 		people = new int[N+1];
-		create();
-		party = new List[M];
+		for(int i = 0;i<=N;i++)
+			people[i] = i;
+		List<Integer>[] party = new List[M];
 		st = new StringTokenizer(br.readLine());
 		int t = Integer.parseInt(st.nextToken());
 		while(t-- > 0) {
@@ -38,21 +31,14 @@ public class Main {
 		
 		int count = 0;
 		for(int i = 0;i<M;i++) {
-			boolean flag = true;
-			for(int p:party[i]) {
-				if(find(p)== 0) {flag = false; break;}
-			}
-			if(flag) count ++;
+			int c = 1;
+			for(int p:party[i]) 
+				if(find(p)== 0) {c = 0; break;}
+			count += c;
 		}
 		
-//		System.out.println(Arrays.toString(people));
 		bw.write(String.valueOf(count));
 		bw.flush();
-	}
-	
-	static void create() {
-		for(int i = 0;i<=N;i++)
-			people[i] = i;
 	}
 	
 	static int find(int a) {
@@ -60,11 +46,10 @@ public class Main {
 		else return (people[a] = find(people[a]));
 	}
 	
-	static boolean union(int a, int b) {
+	static void union(int a, int b) {
 		int pa = find(a), pb = find(b);
-		if(pa == pb) return false;
+		if(pa == pb) return;
 		if(pa > pb) people[pa] = pb;
 		else people[pb] = pa;
-		return true;
 	}
 }
