@@ -18,24 +18,16 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			int a = Integer.parseInt(st.nextToken())-1, b = Integer.parseInt(st.nextToken())-1;
 			gt[a][b] = true;
-//			gt[b][a] = true;
 		}
 		
 		for(int k = 0;k<N;k++) {
 			for(int i = 0;i<N;i++) {
-//				if(i == k || !gt[i][k]&&!gt[k][i]) continue;
+				if(i == k || !gt[i][k]) continue;
 				for(int j = 0;j<N;j++) {
 					gt[i][j] |= gt[i][k]&&gt[k][j];
 				}
 			}
 		}
-		
-//		for(int i = 0;i<N;i++) {
-//			for(int j = 0;j<N;j++) {
-//				System.out.print(gt[i][j]? "1":"0");
-//			}
-//			System.out.println();
-//		}
 		
 		int res = 0;
 		for(int i = 0;i<N;i++) {
