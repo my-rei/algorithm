@@ -17,9 +17,8 @@ public class Main {
 		map = new char[N][M];
 		
 		for(int i = 0;i<N;i++) {
-			String str = br.readLine();
+			map[i] = br.readLine().toCharArray();
 			for(int j =0;j<M;j++) {
-				map[i][j] = str.charAt(j);
 				if(map[i][j] == 'R') { ri = i; rj = j; map[i][j] ='.'; }
 				else if(map[i][j] == 'B') { bi = i; bj = j; map[i][j] = '.';}
 				else if(map[i][j] == 'O'){ oi = i; oj = j; }
@@ -28,36 +27,32 @@ public class Main {
 		
 		//모든 경우 탐색
 		//각경우마다 이동하여 유효성 판단
-//		minTry = Integer.MAX_VALUE;
-		dfs(0, new int[] {0, ri, rj, bi, bj});
+		dfs(0, ri*M+rj, bi*M+bj);
 		
-//		if(minTry == Integer.MAX_VALUE) minTry = -1;
 		bw.write(flag? "1":"0");
 		bw.flush();
 	}
 	
-	static void dfs(int count, int[] cor) {
-		// r, b 좌표로 위치 관리한다 
+	static void dfs(int count, int rCor, int bCor) {
+		// r, b 좌표로 위치 관리
 		if(count == 10 || flag)  return;
-//		if(count > minTry) return;
 		
 		// d 0왼쪽 1오른쪽 2위쪽 3오른쪽 
 		for(int d = 0;d<4;d++) {
-			int[] rs = move(d, cor);
+			int[] rs = move(d, rCor, bCor);
 			if(rs[0] == 0) {
-				dfs(count+1, rs);
+				dfs(count+1, rs[1], rs[2]);
 			} else if(rs[0] == 1) {
 				flag = true;
-//				minTry = Math.min(minTry, count+1);
                 return;
 			}
 		}
 	}
 	
-	static int[] move(int d, int[] cor) {
+	static int[] move(int d, int rCor, int bCor) {
 		// return -1:실패/움직이지않음 0:이동완료 1:종료 
-		boolean flag = false, rStop = false, bStop = false, success = false;
-		int crr = cor[1], crc = cor[2], cbr = cor[3], cbc = cor[4];
+		boolean rStop = false, bStop = false, success = false;
+		int crr = rCor / M, crc = rCor % M, cbr = bCor / M, cbc = bCor % M;
 		while(!rStop || !bStop) {
 			int nrr = crr + dr[d], nrc = crc+dc[d], nbr = cbr+dr[d], nbc = cbc+dc[d];
 			if(map[nrr][nrc] == '#') {nrr = crr; nrc = crc; rStop = true;}
@@ -67,7 +62,6 @@ public class Main {
 					rStop = true;
 				} else if (map[nrr][nrc] == '.') {
 					crr = nrr; crc = nrc;
-					flag = true;
 				} else if(map[nrr][nrc] == 'O') {
 					rStop = true;
 					success = true;
@@ -79,15 +73,16 @@ public class Main {
 					bStop = true;
 				} else if (map[nbr][nbc] == '.') {
 					cbr = nbr; cbc = nbc;
-					flag = true;
 				} else if(map[nbr][nbc] == 'O') {
 					return new int[] {-1, nrr, nrc, nbr, nbc};
 				}
 			}
 		}
 		
-		if(success) return new int[] {1, crr, crc, cbr, cbc};
-		int resultcode = flag? 0:-1;
-		return new int[] {resultcode, crr, crc, cbr, cbc};
+		if(success) return new int[] {1, crr*M+crc, cbr*M+cbc};
+		int r = crr*M+crc, b = cbr*M+cbc;
+		return new int[] {rCor == r && bCor == b? -1:0, r, b};
 	}
+	
+	
 }
