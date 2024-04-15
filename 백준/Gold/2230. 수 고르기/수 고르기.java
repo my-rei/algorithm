@@ -14,14 +14,14 @@ public class Main {
 		}
 		Arrays.sort(nums);
 		
-		int s = 0, e = 1; long dif = Long.MAX_VALUE;
-		while(s<e && e<N) {
+		int s = 0, e = 0; long dif = Long.MAX_VALUE;
+		while(e<N) {
 			if(nums[e]-nums[s] == M) {
 				dif = M;
 				break;
 			} else if (nums[e] - nums[s] > M) {
 				dif = Math.min(dif, nums[e]-nums[s]);
-				s++; e = s+1;
+				s++;
 			} else {
 				e++;
 			}
