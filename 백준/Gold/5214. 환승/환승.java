@@ -13,7 +13,7 @@ public class Main {
 //	static boolean[][] map;
 	static int[][] tube;
 	static List<Integer>[] graph;
-	static boolean[] vs;
+	static boolean[] vs, tvs;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -24,6 +24,7 @@ public class Main {
 		tube = new int[M][K];
 		graph = new List[N+1];
 		vs = new boolean[N+1];
+		tvs = new boolean[M];
 		for(int i = 0;i<M;i++) {
 			st= new StringTokenizer(br.readLine());
 			int[] list = new int[K];
@@ -36,32 +37,9 @@ public class Main {
 				if(graph[list[k]] == null) graph[list[k]] = new ArrayList<>();
 				graph[list[k]].add(i);
 			}
-			
-			
-					
-//			for(int k = 0;k<K;k++) {
-//				if(graph[list[k]] == null) graph[list[k]] = new HashSet<>();
-//				for(int t=0;t<K;t++) {
-//					graph[list[k]].add(list[t]);
-////					map[list[k]][list[t]] = true;
-//				}
-//			}
-			
-//			int[] list = new int[K];
-//			for(int k = 0;k<K;k++) {
-//				list[k] = Integer.parseInt(st.nextToken());
-//			}
-//			Arrays.sort(tube);
-//			tube[i] = list;
 		}
-		
-//		for(int i = 0;i<N;i++) {
-//			System.out.println(graph[i] != null? graph[i].toString():"");
-//		}
-		
 		bw.write(String.valueOf(bfs()));
 		bw.flush();
-		
 	}
 	
 	static int bfs() {
@@ -75,14 +53,14 @@ public class Main {
 				if(graph[now] == null) continue;
 				for(int i = 0;i<graph[now].size();i++) {
 					int t = graph[now].get(i);
+					if(tvs[t]) continue;
+					tvs[t] = true;
 					for(int j = 0;j<K;j++) {
 						int tg = tube[t][j];
-						if(tg != now) {
-							if(!vs[tg]) {
-								if(tg == N) return level+1;
-								vs[tg] = true;
-								q.add(tg);
-							}
+						if(!vs[tg]) {
+							if(tg == N) return level+1;
+							vs[tg] = true;
+							q.add(tg);
 						}
 					}
 				}
