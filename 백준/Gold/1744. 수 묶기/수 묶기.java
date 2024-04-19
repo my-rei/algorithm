@@ -27,10 +27,10 @@ public class Main {
 			} else 
 				sum += nums[i];
 		}
-		if(countZ > 0 && countM % 2 == 1) nums[i] = 0; 
+//		if(countZ > 0 && countM % 2 == 1) nums[i] = 0; 
 		for(;j<i;j+=2) 
 			sum += nums[j] * nums[j+1];
-		if(j == i) sum += nums[j];
+		if(j == i) sum += countZ>0? 0:nums[j];
 		
 		bw.write(String.valueOf(sum));
 		bw.flush();
