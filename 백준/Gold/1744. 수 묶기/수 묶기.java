@@ -2,19 +2,17 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 		int N = Integer.parseInt(br.readLine()); 
 		int[] nums = new int[N];
-		int countZ = 0, countM = 0;
+		int countZ = 0;
 		for(int i = 0;i<N;i++) {
 			int n = Integer.parseInt(br.readLine());
 			if(n == 0) countZ ++;
 			else nums[i] = n;
-			if(n < 0) countM++;
 		}
 		Arrays.sort(nums);
 		
@@ -27,7 +25,6 @@ public class Main {
 			} else 
 				sum += nums[i];
 		}
-//		if(countZ > 0 && countM % 2 == 1) nums[i] = 0; 
 		for(;j<i;j+=2) 
 			sum += nums[j] * nums[j+1];
 		if(j == i) sum += countZ>0? 0:nums[j];
