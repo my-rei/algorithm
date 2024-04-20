@@ -12,15 +12,10 @@ public class Solution {
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st = null;
 		int T = Integer.parseInt(br.readLine());
-		int bit = (1<<10)-1;
 		for(int t = 1;t<=T;t++) {
 			st = new StringTokenizer(br.readLine());
-			int N = Integer.parseInt(st.nextToken()), M = Integer.parseInt(st.nextToken());
-			
-			boolean flag = (M & ((1<<N) - 1)) == ((1<<N) - 1);
-			
-			
-			sb.append("#").append(t).append(" ").append(flag? "ON":"OFF").append("\n");
+			int N = Integer.parseInt(st.nextToken()), M = Integer.parseInt(st.nextToken()), R = (1<<N) - 1;
+			sb.append("#").append(t).append(" ").append((M & R) == R? "ON":"OFF").append("\n");
 		}
 		bw.write(sb.toString());
 		bw.flush();
