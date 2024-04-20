@@ -11,10 +11,9 @@ public class Solution {
 		for(int t = 1;t<=T;t++) {
 			int N = Integer.parseInt(br.readLine());
 			
-			int cur = 0, num = 0, level = 0;
+			int cur = 0, num = 0;
 			while(cur != bit) {
-				level++; num += N; 
-//				System.out.println("cur =["+Integer.toBinaryString(cur)+"]");
+				num += N; 
 				int tmp = num;
 				while(tmp > 0) {
 					cur |= 1 << (tmp % 10);
