@@ -17,10 +17,12 @@ public class Main {
 	}
 	
 	static int cal() {
-		if(A==B && B==C) return 10000+A*1000;
-		if(A==B) return 1000+A*100;
-		if(B==C) return 1000+B*100;
-		if(A==C) return 1000+C*100;
+		if(A==B) {
+			if(B==C) return 10000+A*1000;
+			return 1000+A*100;
+		}
+		else if(B==C) return 1000+B*100;
+		else if(A==C) return 1000+C*100;
 		return Math.max(A, Math.max(B, C))*100;
 	}
 }
