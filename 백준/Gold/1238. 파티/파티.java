@@ -85,7 +85,6 @@ public class Main {
 
 		int max = 0;
 		for(int i = 0;i<N;i++) {
-			if(i==X) continue;
 			max = Math.max(inx[i]+outx[i], max);
 		}
 		bw.write(String.valueOf(max));
