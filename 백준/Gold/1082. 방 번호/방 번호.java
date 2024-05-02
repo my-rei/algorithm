@@ -30,22 +30,17 @@ public class Main {
 		}
 		
 		int minCount = remain/minNP;
-		int c = 0;
-		while(c++ < minCount) {
+		while(minCount-- > 0) {
 			nums.add(minN);
 		}
-//		System.out.println(nums.toString());
 		remain = remain%minNP;
-		
-//		System.out.println(minN+" "+minNP+" "+minCount+" "+remain+" "+notZeroNP);
+
 		int cur = 0;
 		for(int i = N-1;i>-1;) {
 			if(i == minN || cur == nums.size()) break;
-//			System.out.println(i+"i"+ " "+remain);
 			if(p[i]- p[nums.get(cur)] <= remain) {
 				remain -= p[i]- p[nums.get(cur)];
 				nums.set(cur, i);
-//				System.out.println(i);
 				cur++;
 			} else {
 				i--;
