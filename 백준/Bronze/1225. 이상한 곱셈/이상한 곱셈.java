@@ -8,11 +8,12 @@ public class Main {
 		
 		String[] str = br.readLine().split(" ");
 		char[] barr = str[1].toCharArray();
-		long res = 0;
+		long res = 0, bsum = 0;
+		for(char b:barr) {
+			bsum += (b-'0');
+		}
 		for(char a : str[0].toCharArray()) {
-			for(char b:barr) {
-				res += (a-'0')*(b-'0');
-			}
+			res += (a-'0')*bsum;
 		}
 		
 		
