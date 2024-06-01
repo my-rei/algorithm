@@ -21,11 +21,7 @@ public class Main {
 		for(int i = 0;i<N;i++) {
 			String s = br.readLine();
 			if(s.length() < M) continue;
-			if(words.containsKey(s)) {
-				words.put(s, words.get(s)+1);
-			} else {
-				words.put(s, 1);
-			}
+			words.put(s, words.getOrDefault(s, 0) + 1);
 		}
 		
 		List<Word> list = new ArrayList<>();
