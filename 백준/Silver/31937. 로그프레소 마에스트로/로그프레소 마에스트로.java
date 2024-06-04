@@ -29,7 +29,13 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			logs.add(new int[] {Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())});
 		}
-		logs.sort(Comparator.comparingInt(arr -> arr[0]));
+//		logs.sort(Comparator.comparingInt(arr -> arr[0]));
+		logs.sort(new Comparator<int[]>() {
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				return o1[0] - o2[0];
+			}
+		});
 		
 		for(int i = 1;i<=N;i++) {
 			if(!isVirus[i]) continue;
@@ -51,8 +57,6 @@ public class Main {
 				
 			}
 			
-			
-//			System.out.println(i+":  "+count);
 			if(count == K) {
 				bw.write(String.valueOf(i));
 				break;
