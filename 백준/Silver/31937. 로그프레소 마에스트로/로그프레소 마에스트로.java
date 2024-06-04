@@ -1,13 +1,5 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
@@ -45,13 +37,13 @@ public class Main {
 			int count = 1;
 			for(int j = 0;j<M;j++) {
 				if(getVirus[logs.get(j)[1]]) {
-					if(!getVirus[logs.get(j)[2]] && isVirus[logs.get(j)[2]]) { // 적합
-						getVirus[logs.get(j)[2]] = true;
-						count++;
-					}
 					if(!isVirus[logs.get(j)[2]]) { // 비적합
 						count = -1;
 						break;
+					}
+					if(!getVirus[logs.get(j)[2]] && isVirus[logs.get(j)[2]]) { // 적합
+						getVirus[logs.get(j)[2]] = true;
+						count++;
 					}
 				}
 				
