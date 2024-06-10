@@ -7,9 +7,9 @@ public class Main {
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		int A = Integer.parseInt(st.nextToken());
-		int B = Integer.parseInt(st.nextToken());
-		bw.write(String.valueOf((A+B)*(A-B)));
+		long A = Integer.parseInt(st.nextToken());
+		long B = Integer.parseInt(st.nextToken());
+		bw.write(Long.toString((A+B)*(A-B)));
 		bw.flush();
 	}
 }
