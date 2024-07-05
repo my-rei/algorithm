@@ -22,14 +22,15 @@ public class Main {
 		}
 		Arrays.sort(sensors);
 		
-		int[] interval = new int[N-1];
+		
 		for(int i = 0;i<N-1;i++) {
-			interval[i] = sensors[i+1] - sensors[i];
+			sensors[i] = sensors[i+1] - sensors[i];
 		}
-		Arrays.sort(interval);
+		sensors[N-1] = Integer.MAX_VALUE;
+		Arrays.sort(sensors);
 		int res = 0;
 		for(int i = 0;i<N-K;i++) {
-			res += interval[i];
+			res += sensors[i];
 		}
 		
 
