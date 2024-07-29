@@ -1,15 +1,12 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.*;
 
 public class Main {
-	// 배열 사용
 	static boolean[] map = new boolean[20];
+	static int mapBit = 0;
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringBuilder sb = new StringBuilder();
 
 		int M = Integer.parseInt(br.readLine());
@@ -18,27 +15,27 @@ public class Main {
 
 			switch (order[0]) {
 			case "add":
-				map[Integer.parseInt(order[1]) - 1] = true;
+				mapBit = mapBit | (1 << Integer.parseInt(order[1]));
 				break;
 			case "remove":
-				map[Integer.parseInt(order[1]) - 1] = false;
+				mapBit = mapBit & ~(1 << Integer.parseInt(order[1]));
 				break;
 			case "check":
-				sb.append((map[Integer.parseInt(order[1]) - 1] ? 1 : 0) + "\n");
+				int res = (((1 << Integer.parseInt(order[1]) & mapBit) >> Integer.parseInt(order[1])) & 1);
+				sb.append(Integer.toBinaryString(res) + "\n");
 				break;
 			case "toggle":
-				map[Integer.parseInt(order[1]) - 1] = !map[Integer.parseInt(order[1]) - 1];
+				mapBit = mapBit ^ (1 << Integer.parseInt(order[1]));
 				break;
 			case "all":
-				for (int i = 0; i < 20; i++)
-					map[i] = true;
+				mapBit = mapBit | ~0;
 				break;
 			case "empty":
-				for (int i = 0; i < 20; i++)
-					map[i] = false;
+				mapBit = 0;
 				break;
 			}
 		}
-		System.out.println(sb);
+        bw.write(sb.toString());
+        bw.flush();
 	}
 }
