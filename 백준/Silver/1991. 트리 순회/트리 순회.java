@@ -1,91 +1,55 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
 	static StringBuilder sb;
-
-	static class Node {
-		char val;
-		Node left, right, parent;
-
-		public Node(char val) {
-			this.val = val;
-		}
-	}
-
-	public static void main(String[] args) throws Exception {
+	static int[][] node;
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		sb = new StringBuilder();
+		
 		StringTokenizer st = null;
-
 		int N = Integer.parseInt(br.readLine());
-		Map<Character, Node> nodeMap = new HashMap<>();
-		for (int i = 0; i < N; i++) {
-			nodeMap.put((char) ('A' + i), new Node((char) ('A' + i)));
-		}
-
-		for (int i = 0; i < N; i++) {
+		sb = new StringBuilder();
+		node = new int[N][2];
+		
+		for(int i=0;i<N;i++) {
 			st = new StringTokenizer(br.readLine());
-			char c = st.nextToken().charAt(0), l = st.nextToken().charAt(0), r = st.nextToken().charAt(0);
-			Node n = nodeMap.get(c);
-			if (l != '.') {
-				n.left = nodeMap.get(l);
-				nodeMap.get(l).parent = n;
-			}
-			if (r != '.') {
-				n.right = nodeMap.get(r);
-				nodeMap.get(r).parent = n;
-			}
+			int r = st.nextToken().charAt(0)-'A';
+			node[r][0] = st.nextToken().charAt(0)-'A';
+			node[r][1] = st.nextToken().charAt(0)-'A';
 		}
-
-		Node root = nodeMap.get('A');
-		preOrder(root);
+		preorder(0);
 		sb.append("\n");
-		inOrder(root);
+		inorder(0);
 		sb.append("\n");
-		postOrder(root);
+		postorder(0);
 		bw.write(sb.toString());
 		bw.flush();
 	}
 
-	static void preOrder(Node cur) {
-		sb.append(cur.val);
-		if (cur.left != null)
-			preOrder(cur.left);
-
-		if (cur.right != null)
-			preOrder(cur.right);
-
+	
+	public static void preorder(int now) {
+		if(now < 0) return;
+		sb.append((char) (now+'A'));
+		preorder(node[now][0]);
+		preorder(node[now][1]);
 	}
-
-	static void inOrder(Node cur) {
-		if(cur.left != null)
-			inOrder(cur.left);
-		sb.append(cur.val);
-		if(cur.right!=null)
-			inOrder(cur.right);
+	public static void inorder(int now) {
+		if(now < 0) return;
+		inorder(node[now][0]);
+		sb.append((char) (now+'A'));
+		inorder(node[now][1]);
 	}
-
-	static void postOrder(Node cur) {
-		if(cur.left != null)
-			postOrder(cur.left);
-		if(cur.right!=null)
-			postOrder(cur.right);
-		sb.append(cur.val);
-	}
-
-	static Node findLeft(Node cur) {
-		if (cur.left == null)
-			return cur;
-		else
-			return findLeft(cur.left);
-	}
-
-	static Node findRight(Node cur) {
-		if (cur.right == null)
-			return cur;
-		else
-			return findRight(cur.right);
+	public static void postorder(int now) {
+		if(now < 0) return;
+		postorder(node[now][0]);
+		postorder(node[now][1]);
+		sb.append((char) (now+'A'));
 	}
 }
