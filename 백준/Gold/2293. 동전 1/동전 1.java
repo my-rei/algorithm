@@ -21,17 +21,9 @@ public class Main {
 				for(int l=0;l<=j;l++) {
 					dp[i][j] += dp[i-ns[j]][l];
 				}
-				if(i == ns[j])
-					dp[i][j] += 1;
+				if(i-ns[j] == 0) { dp[i][j] = 1; }
 			}
 		}
-		
-//		for(int i = 0;i<=k;i++) {
-//			for(int j = 0;j<n;j++) {
-//				System.out.print(dp[i][j]+" ");
-//			}
-//			System.out.println();
-//		}
 		
 		int sum = 0;
 		for(int j=0;j<n;j++)
