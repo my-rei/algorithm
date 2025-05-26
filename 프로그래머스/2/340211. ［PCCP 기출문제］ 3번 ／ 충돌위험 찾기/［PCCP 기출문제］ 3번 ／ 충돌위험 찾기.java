@@ -1,3 +1,5 @@
+// 1차 정답 (int 2차원 배열 사용)
+
 import java.io.*;
 import java.util.*;
 
