@@ -9,13 +9,6 @@ class Solution {
     class Robot {
         int r, c;
         Queue<Integer> targets;
-        
-        public Robot(int r, int c) {
-            this.r = r;
-            this.c = c;
-            this.targets = new ArrayDeque<>();
-        }
-        
         public Robot(int r, int c, int[] ts) {
             this.r = r;
             this.c = c;
@@ -57,7 +50,6 @@ class Solution {
             boolean cFlag = false;
             while(N-- > 0) {
                 Robot rb = rbs.poll();
-                if (rb == null) break; // 안전장치
                 
                 // (1) 이동할 포인트 확인
                 int tr = pts[rb.targets.peek()][0];
@@ -71,17 +63,15 @@ class Solution {
                 } 
                 
                 // (3) 배열에 현재 위치 기록 및 검증 
-                // 같은 위치라면 카운트 X 
+                // 같은 위치라면 카운트 X (정산되었을 때 음수로 표시, 음수일 경우 pass)
                 if(vst[rb.r][rb.c] == cur) {
                     cnt++;
-                    vst[rb.r][rb.c] = -1 * cur; // 정산 완료는 음수 
-                } else if (vst[rb.r][rb.c] == -1 * cur){
-                    
-                } else {
+                    vst[rb.r][rb.c] = -1 * cur; 
+                } else if (vst[rb.r][rb.c] != -1 * cur) {
                     vst[rb.r][rb.c] = cur;
                 }
                 
-                // (4) targer에 도착했는지 확인
+                // (4) target에 도착했는지 확인
                 if (rb.r == tr && rb.c == tc) {
                     rb.targets.poll();
                     if (!rb.targets.isEmpty()) {
@@ -90,12 +80,9 @@ class Solution {
                 } else {
                     rbs.add(rb);
                 }
-                
-                
             }
             
             cur++;
-            // cnt += cFlag? 1:0;
         }
         
         return cnt;
